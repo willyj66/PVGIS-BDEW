@@ -55,7 +55,7 @@ with col2:
     x='time',
     y='PV generation')
 
-    error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='PV min',y2='PV max')
+    error = alt.Chart(df[month-1]).mark_area(opacity=0.2,height=600).encode(x='time',y='PV min',y2='PV max')
     #line2 = alt.Chart(PV_min).mark_line().encode(
     #x='t',
     #y='PV_min')
@@ -65,7 +65,7 @@ with col2:
     #)
 
     st.altair_chart(PV+error,
-    use_container_width=True,height=600)
+    use_container_width=True)
 
 
 
