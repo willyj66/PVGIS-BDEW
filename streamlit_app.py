@@ -21,10 +21,10 @@ property_type, lat, lon = 'g0',56.140,-3.919
 start = 2013
 end = 2016
 
-annual_consumption = st.number_input('Annual property consumption [kWh]')
-PV_max_power = st.number_input('PV system peak power [kWp]')
-surface_tilt = st.number_input('Surface tilt [degrees]',value=35)
-surface_azimuth = st.number_input('Surface tilt [degrees]',value=0)
+annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
+PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
+surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
+surface_azimuth = st.number_input('Surface tilt [degrees]',value=0,step=1)
 
 
 df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
