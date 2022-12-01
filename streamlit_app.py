@@ -37,7 +37,7 @@ with st.form(key="Input parameters"):
     if button:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
         property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
-        with st.form(key="Update graph"):
+        with st.form(key="Update"):
             month = st.slider("Month", 1, 12, 12)
             PV = df[month-1]['PV generation']
             source = pd.DataFrame({
