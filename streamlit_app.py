@@ -46,11 +46,13 @@ with st.form(key="Input parameters"):
     if location_method == 'Coordinates':
         lat = float(st.text_input('Latitude', value=56.140,))
         lon = float(st.text_input('Longitude',value =-3.919))
+        st.experimental_rerun()
     if location_method == 'Postcode':
         postcode = st.text_input('Postcode')
         postcode_data = country.query_postal_code(postcode)
         lat = postcode_data["latitude"]
         lon = postcode_data["longitude"]
+        st.experimental_rerun()
     annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
     PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
     surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
