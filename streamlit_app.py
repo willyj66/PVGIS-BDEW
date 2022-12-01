@@ -2,7 +2,7 @@ from EST_tidy_data import makedf
 #from EST_gui import get_variables
 import numpy as np
 import pandas as pd
-import altair_test as alt
+import altair as alt
 import math
 import pandas as pd
 import streamlit as st
