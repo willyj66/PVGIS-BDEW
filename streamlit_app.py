@@ -16,6 +16,7 @@ PropertyDict={
     "g0":"General Business", "g1":"Weekday Business","g2":"Evening Business","g3":"Continuous Business",
     "g4":"Shop or Barber","g5":"Bakery","g6":"Weekend Business","g7":"Mobile Phone Transmitter Station",
     "l0":"General Farm","l1":"Dairy or Livestock Farm", "l2":"Other Farm", "h0":"Household"}
+invPropertyDict = {v: k for k, v in PropertyDict.items()}
 
 lat, lon = 56.140,-3.919
 start = 2013
@@ -29,7 +30,7 @@ Imput your property parameters, proposed PV install specifications, annual consu
 """
 @st.cache
 def to_the_shop_to_get_your_PVGIS_data(property_type,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
-    return makedf(property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
+    return makedf(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
 
 with st.form(key="Input parameters"):
     property_type = st.selectbox('What is the property type?',PropertyDict.values())
