@@ -65,8 +65,7 @@ with col2:
     #)
     chart = PV+error
     chart.height=550
-    st.altair_chart(PV+error,
-    use_container_width=True)
+    st.altair_chart(chart,use_container_width=True)
 
 
 
