@@ -1,8 +1,30 @@
+from EST_tidy_data import makedf
+from EST_gui import get_variables
+import numpy as np
+import pandas as pd
 from collections import namedtuple
 import altair as alt
 import math
 import pandas as pd
 import streamlit as st
+
+
+
+MonthDict={ 1 : "January", 2 : "February", 3 : "March", 4 : "April", 5 : "May", 6 : "June", 7: "July",
+            8 : "August", 9 : "September", 10 : "October", 11 : "November",12 : "December"}
+PropertyDict={
+    "g0":"General Business", "g1":"Weekday Business","g2":"Evening Business","g3":"Continuous Business",
+    "g4":"Shop or Barber","g5":"Bakery","g6":"Weekend Business","g7":"Mobile Phone Transmitter Station",
+    "l0":"General Farm","l1":"Dairy or Livestock Farm", "l2":"Other Farm", "h0":"Household"}
+
+property_type, lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth = 'g0',56.140,-3.919,12000,8,0,35
+start = 2013
+end = 2016
+
+df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
+    property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end
+    )
+
 
 """
 # Welcome to Streamlit!
