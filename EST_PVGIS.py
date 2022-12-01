@@ -1,7 +1,6 @@
 from pvlib_parse import get_pvgis_hourly
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from EST_BDEW import yearly_BDEW
 
 
