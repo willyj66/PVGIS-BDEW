@@ -28,17 +28,20 @@ Made by Maxim Oweyssi for the Energy Saving Trust :heart:
 Imput your property parameters, proposed PV install specifications, annual consumption and press Submit!
 """
 @st.cache
-def getdata(annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
+def to_the_shop_to_get_your_data(annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
     return makedf(property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
+
 with st.form(key="Input parameters"):
     annual_consumption = st.number_input('Annual property consumption [kWh]',value=0,step=1)
     PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
     surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
     surface_azimuth = st.number_input('Surface tilt [degrees]',value=0,step=1)
-    button = st.form_submit_button(label="Submit")
+    buttonlabel = "Submit"
+    button = st.form_submit_button(label=buttonlabel)
     if button:
-        df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = getdata(
+        df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_data(
             annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
+        buttonlabel = "redraw"
 
 
     month = st.slider("Month", 1, 12, 12)
