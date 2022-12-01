@@ -55,10 +55,7 @@ with col2:
     x='time',
     y='PV generation')
 
-    error = alt.Chart(df[month-1]).mark_area().encode(
-    x='time',
-    y='PV min',
-    y2='PV max')
+    error = alt.Chart(df[month-1]).mark_area().encode(x='time',y='PV min',y2='PV max').configure_mark(opacity=0.2)
     #line2 = alt.Chart(PV_min).mark_line().encode(
     #x='t',
     #y='PV_min')
