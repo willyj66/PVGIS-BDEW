@@ -33,7 +33,11 @@ with st.form(key="Input parameters"):
     PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
     surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
     surface_azimuth = st.number_input('Surface tilt [degrees]',value=0,step=1)
-    st.form_submit_button(label="Submit")
+    button = st.form_submit_button(label="Submit")
+    if button ==False:
+        st.stop()
+    else:
+        st.success('Go!')
 
 df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
     property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end
