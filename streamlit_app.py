@@ -51,11 +51,11 @@ with col2:
                 property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
     month = st.slider("Month", 1, 12, 12)
 
-    PV = alt.Chart(df[month-1]).mark_line().encode(
+    PV = alt.Chart(df[month-1]).mark_line(height=600).encode(
     x='time',
     y='PV generation')
 
-    error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='PV min',y2='PV max')
+    error = alt.Chart(df[month-1]).mark_area(opacity=0.2,height=600).encode(x='time',y='PV min',y2='PV max')
     #line2 = alt.Chart(PV_min).mark_line().encode(
     #x='t',
     #y='PV_min')
