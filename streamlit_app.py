@@ -35,11 +35,14 @@ with st.form(key="Input parameters"):
     surface_azimuth = st.number_input('Surface tilt [degrees]',value=0,step=1)
     button = st.form_submit_button(label="Submit")
 
-    switch = False
+    
     if button == True:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
         property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
-        switch == True
+        global switch
+        switch = True
+    else:
+        switch = False
 
     if switch == True:
         month = st.slider("Month", 1, 12, 12)
