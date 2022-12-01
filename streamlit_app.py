@@ -2,7 +2,6 @@ from EST_tidy_data import makedf
 #from EST_gui import get_variables
 import numpy as np
 import pandas as pd
-from collections import namedtuple
 import altair as alt
 import math
 import pandas as pd
@@ -22,7 +21,7 @@ invPropertyDict = {v: k for k, v in PropertyDict.items()}
 #lat, lon = 56.140,-3.919
 start = 2013
 end = 2016
-
+st.set_page_config(layout="wide")
 """
 # Welcome to the PVGIS-BDEW Tool!
 Made by Maxim Oweyssi for the Energy Saving Trust :heart:
@@ -30,7 +29,7 @@ Made by Maxim Oweyssi for the Energy Saving Trust :heart:
 Imput your property parameters, proposed PV install specifications, annual consumption and press Submit!
 """
 
-st.set_page_config(layout="wide")
+
 col1, col2 = st.columns(2)
 @st.cache
 def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
