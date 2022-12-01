@@ -1,6 +1,5 @@
 from EST_BDEW import get_BDEW
 from EST_PVGIS import PV_power
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 """
