@@ -17,7 +17,7 @@ PropertyDict={
     "g4":"Shop or Barber","g5":"Bakery","g6":"Weekend Business","g7":"Mobile Phone Transmitter Station",
     "l0":"General Farm","l1":"Dairy or Livestock Farm", "l2":"Other Farm", "h0":"Household"}
 
-property_type, lat, lon, annual_consumption = 'g0',56.140,-3.919
+property_type, lat, lon = 'g0',56.140,-3.919
 start = 2013
 end = 2016
 
