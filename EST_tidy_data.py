@@ -84,12 +84,23 @@ def makedf(property_type, lat, lon, annual_consumption, PV_max_power, surface_ti
         
 
         """Write time-data into Pandas data frame"""
-        df['PV generation']      = generation
-        df['PV min']             = generation_min
-        df['PV max']             = generation_max
-        df['BDEW workday']       = workday[month]
-        df['BDEW saturday']      = saturday[month]
-        df['BDEW sunday']        = sunday[month]
+        #df['PV generation']      = generation
+        #df['PV min']             = generation_min
+        #df['PV max']             = generation_max
+        #df['BDEW workday']       = workday[month]
+        #df['BDEW saturday']      = saturday[month]
+        #df['BDEW sunday']        = sunday[month]
+
+        df = pd.DataFrame({
+            'time'          : time,
+            'PV generation' : generation,
+            'PV min'        : generation_min,
+            'PV max'        : generation_max,
+            'BDEW workday'  : workday[month],
+            'BDEW saturday' : saturday[month],
+            'BDEW sunday'   : sunday[month]
+
+        })
 
         """append monthly and yearly statistics"""
         bdew_demand['Workday\n Demand [kWh]'].append(str(int(workday_demand)))

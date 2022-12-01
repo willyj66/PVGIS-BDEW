@@ -53,14 +53,11 @@ with col2:
     PV = pd.DataFrame({'t': t,'PV':df[month-1]['PV generation']})
     PV_min = pd.DataFrame({'t': t,'PV_min':df[month-1]['PV min']})
     PV_max = pd.DataFrame({'t': t,'y':df[month-1]['PV max']})
-    workday = pd.DataFrame({'t': t,'BDEW':df[month-1]['BDEW workday']})
+    workday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW workday']})
     saturday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW saturday']})
     sunday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW sunday']})
-    chart = alt.Chart(t).encode(x='t')
-    alt.layer(
-    chart.mark_line(color='blue').encode(y='PV'),
-    chart.mark_line(color='red').encode(y='BDEW')
-    )   
+    chart = alt.Chart(df[month-1]).encode(x='time')
+
     chart = alt.Chart(PV,height=600).mark_line(color='#0068c9', opacity=0.5).encode(x='t', y='y')
     st.altair_chart(chart,
     use_container_width=True)
