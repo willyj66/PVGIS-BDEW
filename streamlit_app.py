@@ -56,7 +56,7 @@ with col2:
     workday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW workday']})
     saturday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW saturday']})
     sunday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW sunday']})
-    st.altair_chart(alt.Chart(PV)
+    st.altair_chart(alt.Chart(PV,height=500)
     .mark_line(color='#0068c9', opacity=0.5)
     .encode(x='t', y='y'),
     use_container_width=True)
