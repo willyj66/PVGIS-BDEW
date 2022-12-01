@@ -63,7 +63,8 @@ with col2:
     #x='Year',
     #y=alt.Y('Miles_per_Gallon', title='Miles/Gallon'),
     #)
-    PV.height=800
+    chart = PV+error
+    chart.height=550
     st.altair_chart(PV+error,
     use_container_width=True)
 
