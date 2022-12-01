@@ -27,7 +27,9 @@ Made by Maxim Oweyssi for the Energy Saving Trust :heart:
 
 Imput your property parameters, proposed PV install specifications, annual consumption and press Submit!
 """
-
+@st.cache
+def getdata(annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
+    return makedf(property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
 with st.form(key="Input parameters"):
     annual_consumption = st.number_input('Annual property consumption [kWh]',value=0,step=1)
     PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
@@ -35,18 +37,18 @@ with st.form(key="Input parameters"):
     surface_azimuth = st.number_input('Surface tilt [degrees]',value=0,step=1)
     button = st.form_submit_button(label="Submit")
     if button:
-        df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
-        property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
-        with st.form(key="Update"):
-            month = st.slider("Month", 1, 12, 12)
-            PV = df[month-1]['PV generation']
-            source = pd.DataFrame({
-            't': t,
-            'y': PV})
-            st.altair_chart(alt.Chart(pd.DataFrame(source), height=500, width=500)
-            .mark_line(color='#0068c9', opacity=0.5)
-            .encode(x='t', y='y'))
-            st.form_submit_button(label="Update graph")
+        df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = getdata(
+            annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
+
+
+    month = st.slider("Month", 1, 12, 12)
+    PV = df[month-1]['PV generation']
+    source = pd.DataFrame({
+    't': t,
+    'y': PV})
+    st.altair_chart(alt.Chart(pd.DataFrame(source), height=500, width=500)
+    .mark_line(color='#0068c9', opacity=0.5)
+    .encode(x='t', y='y'))
         
 
 
