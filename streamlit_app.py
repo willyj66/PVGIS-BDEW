@@ -36,13 +36,11 @@ with st.form(key="Input parameters"):
     button = st.form_submit_button(label="Submit")
 
     
-    if button == True:
+    if button:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
         property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
         global switch
         switch = True
-    else:
-        switch = False
 
     if switch == True:
         month = st.slider("Month", 1, 12, 12)
