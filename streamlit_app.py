@@ -15,7 +15,7 @@ MonthDict={ 1 : "January", 2 : "February", 3 : "March", 4 : "April", 5 : "May", 
             8 : "August", 9 : "September", 10 : "October", 11 : "November",12 : "December"}
 PropertyDict={
     "g0":"General Business", "g1":"Weekday Business","g2":"Evening Business","g3":"Continuous Business",
-    "g4":"Shop or Barber","g5":"Bakery","g6":"Weekend Business","g7":"Mobile Phone Transmitter Station",
+    "g4":"Shop or Barber","g5":"Bakery","g6":"Weekend Business",
     "l0":"General Farm","l1":"Dairy or Livestock Farm", "l2":"Other Farm", "h0":"Household"}
 invPropertyDict = {v: k for k, v in PropertyDict.items()}
 
