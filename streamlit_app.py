@@ -21,6 +21,13 @@ property_type, lat, lon = 'g0',56.140,-3.919
 start = 2013
 end = 2016
 
+"""
+# Welcome to the PVGIS-BDEW Tool!
+Made by Maxim Oweyssi for the Energy Saving Trust :heart:
+
+Imput your property parameters, proposed PV install specifications, annual consumption and press Submit!
+"""
+
 with st.form(key="Input parameters"):
     annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
     PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
@@ -34,16 +41,7 @@ df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
 
 
 
-"""
-# Welcome to Streamlit!
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
-
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
-
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
 
 
 with st.echo(code_location='below'):
