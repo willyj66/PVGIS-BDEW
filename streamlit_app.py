@@ -34,7 +34,7 @@ Imput your property parameters, proposed PV install specifications, annual consu
 def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
     return makedf(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
 
-with st.form(key="Input parameters"):
+with st.form(key="Location parameters"):
     property_type = st.selectbox('What is the property type?',PropertyDict.values())
     location_method = st.selectbox('How would you like to input location?',('Postcode','Coordinates'))
     if location_method == 'Coordinates':
