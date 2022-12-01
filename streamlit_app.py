@@ -43,7 +43,7 @@ with st.echo(code_location='below'):
     total_points=10
     num_turns=2
     month = st.slider("Month", 1, 12, 12)
-    PV = df[month]['PV generation']
+    PV = df[month-1]['PV generation']
     #num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
     source = pd.DataFrame({
         't': t,
