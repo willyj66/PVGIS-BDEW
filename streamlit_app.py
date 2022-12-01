@@ -27,7 +27,6 @@ df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
 
 
 
-plot(t, PV, lw=6, alpha=0.8, color='orange', label = 'PV generation')
 """
 # Welcome to Streamlit!
 
