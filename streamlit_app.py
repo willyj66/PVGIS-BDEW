@@ -58,18 +58,12 @@ with col2:
 
     error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='PV min',y2='PV max')
     if day == 'workday':
-        BDEW = alt.Chart(df[month-1]).mark_line().encode(x='time',y='BDEW workday')
+        BDEW = alt.Chart(df[month-1]).mark_line(color='red').encode(x='time',y='BDEW workday')
     elif day == 'saturday':
-        BDEW = alt.Chart(df[month-1]).mark_line().encode(x='time',y='BDEW saturday')
+        BDEW = alt.Chart(df[month-1]).mark_line(color='red').encode(x='time',y='BDEW saturday')
     elif day == 'sunday':
-        BDEW = alt.Chart(df[month-1]).mark_line().encode(x='time',y='BDEW sunday')
-    #line2 = alt.Chart(PV_min).mark_line().encode(
-    #x='t',
-    #y='PV_min')
-    #band = alt.Chart(source).mark_errorband(extent='ci').encode(
-    #x='Year',
-    #y=alt.Y('Miles_per_Gallon', title='Miles/Gallon'),
-    #)
+        BDEW = alt.Chart(df[month-1]).mark_line(color='red').encode(x='time',y='BDEW sunday')
+
     chart = PV+error + BDEW
     chart.height=550
     st.altair_chart(chart,use_container_width=True)
