@@ -51,11 +51,10 @@ with col1:
         surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
         surface_azimuth = st.number_input('Surface tilt [degrees]',value=0,step=1)
         button = st.form_submit_button(label="Plot the plot!")
-        if button:
-            global df
-            df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
-                property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
+            
 with col2:
+    df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
+                property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
     month = st.slider("Month", 1, 12, 12)
     PV = df[month-1]['PV generation']
     source = pd.DataFrame({'t': t,'y': PV})
