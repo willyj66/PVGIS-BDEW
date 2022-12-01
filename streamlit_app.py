@@ -35,13 +35,11 @@ col1, col2 = st.columns(2)
 def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
     return makedf(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
 
-with st.form(key="Location parameters"):
-    property_type = st.selectbox('What is the property type?',PropertyDict.values())
-    location_method = st.selectbox('How would you like to input location?',('Postcode','Coordinates'))
-    button = st.form_submit_button(label="Continue")
-
 with col1:
     with st.form(key="Input parameters"):
+        property_type = st.selectbox('What is the property type?',PropertyDict.values())
+        location_method = st.selectbox('How would you like to input location?',('Postcode','Coordinates'))
+        button = st.form_submit_button(label="Continue")
         if location_method == 'Coordinates':
             lat = float(st.text_input('Latitude', value=56.140,))
             lon = float(st.text_input('Longitude',value =-3.919))
