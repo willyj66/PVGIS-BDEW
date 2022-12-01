@@ -46,7 +46,7 @@ with st.form(key="Input parameters"):
         lat = float(st.text_input('Latitude', value=56.140,))
         lon = float(st.text_input('Longitude',value =-3.919))
     if location_method == 'Postcode':
-        postcode = st.text_input('Postcode', value='EH11 1AS')
+        postcode = st.text_input('Postcode')
         postcode_data = country.query_postal_code(postcode)
         lat = postcode_data["latitude"]
         lon = postcode_data["longitude"]
