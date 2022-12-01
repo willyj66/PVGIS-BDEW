@@ -50,12 +50,19 @@ with col2:
     df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
                 property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
     month = st.slider("Month", 1, 12, 12)
+    day = st.radio("What day?",('workday','saturday','sunday'))
 
     PV = alt.Chart(df[month-1]).mark_line().encode(
     x='time',
     y='PV generation')
 
     error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='PV min',y2='PV max')
+    if day == 'workday':
+        BDEW = alt.Chart(df[month-1]).mark_line().encode(x='time',y='BDEW workday')
+    elif day == 'saturday':
+        BDEW = alt.Chart(df[month-1]).mark_line().encode(x='time',y='BDEW saturday')
+    elif day == 'sunday':
+        BDEW = alt.Chart(df[month-1]).mark_line().encode(x='time',y='BDEW sunday')
     #line2 = alt.Chart(PV_min).mark_line().encode(
     #x='t',
     #y='PV_min')
@@ -63,7 +70,7 @@ with col2:
     #x='Year',
     #y=alt.Y('Miles_per_Gallon', title='Miles/Gallon'),
     #)
-    chart = PV+error
+    chart = PV+error + BDEW
     chart.height=550
     st.altair_chart(chart,use_container_width=True)
 
