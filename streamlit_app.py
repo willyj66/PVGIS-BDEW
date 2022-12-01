@@ -56,8 +56,7 @@ with col2:
     workday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW workday']})
     saturday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW saturday']})
     sunday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW sunday']})
-    data = df[month-1].reset_index().melt('t')
-    chart = alt.Chart(data,height=600).mark_line(color='#0068c9', opacity=0.5).encode(x='t', y='value')
+    chart = alt.Chart(PV,height=600).mark_line(color='#0068c9', opacity=0.5).encode(x='t', y='y')
     st.altair_chart(chart,
     use_container_width=True)
         
