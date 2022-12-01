@@ -40,6 +40,7 @@ with st.form(key="Input parameters"):
     if location_method == 'Postcode':
         postcode = st.text_input('Postcode', value='EH11 1AS')
         postcode_data = country.query_postal_code(postcode)
+        print(postcode_data)
         lat = postcode_data["latitude"].values[0]
         lon = postcode_data["longitude"].values[0]
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
