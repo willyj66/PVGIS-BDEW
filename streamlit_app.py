@@ -90,7 +90,7 @@ with col2:
         return processed_data
 
     toexport = export_xlsx(df)
-    st.download_button(label='📥 Download the stats as an excel file',
+    st.download_button(label='📥 Download stats in Excel',
                                 data=toexport ,
                                 file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(PV_max_power)+"kWp.xlsx")
 
