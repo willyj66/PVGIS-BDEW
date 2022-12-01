@@ -17,7 +17,7 @@ PropertyDict={
     "g4":"Shop or Barber","g5":"Bakery","g6":"Weekend Business","g7":"Mobile Phone Transmitter Station",
     "l0":"General Farm","l1":"Dairy or Livestock Farm", "l2":"Other Farm", "h0":"Household"}
 
-property_type, lat, lon = 'g0',56.140,-3.919
+lat, lon = 56.140,-3.919
 start = 2013
 end = 2016
 
@@ -28,10 +28,11 @@ Made by Maxim Oweyssi for the Energy Saving Trust :heart:
 Imput your property parameters, proposed PV install specifications, annual consumption and press Submit!
 """
 @st.cache
-def to_the_shop_to_get_your_PVGIS_data(annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
+def to_the_shop_to_get_your_PVGIS_data(property_type,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
     return makedf(property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
 
 with st.form(key="Input parameters"):
+    property_type = st.selectbox('What is the property type?',PropertyDict.values)
     annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
     PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
     surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
@@ -39,7 +40,7 @@ with st.form(key="Input parameters"):
     button = st.form_submit_button(label="Plot the plot!")
     if button:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
-            annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
+            property_type,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
         month = st.slider("Month", 1, 12, 12)
         PV = df[month-1]['PV generation']
         source = pd.DataFrame({'t': t,'y': PV})
