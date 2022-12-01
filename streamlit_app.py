@@ -60,7 +60,12 @@ with col2:
     line = alt.Chart(PV).mark_line().encode(
     x='t',
     y='PV')
-    st.altair_chart(line,
+
+    line2 = alt.Chart(PV_min).mark_line().encode(
+    x='t',
+    y='PV_min')
+
+    st.altair_chart(line+line2,
     use_container_width=True)
 
 
