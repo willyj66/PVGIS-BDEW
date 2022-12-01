@@ -37,17 +37,19 @@ def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption,
 with st.form(key="Location parameters"):
     property_type = st.selectbox('What is the property type?',PropertyDict.values())
     location_method = st.selectbox('How would you like to input location?',('Postcode','Coordinates'))
+    button = st.form_submit_button(label="Continue")
+
+    
+    
+with st.form(key="Input parameters"):
     if location_method == 'Coordinates':
         lat = float(st.text_input('Latitude', value=56.140,))
-        lat = float(st.text_input('Longitude',value =-3.919))
+        lon = float(st.text_input('Longitude',value =-3.919))
     if location_method == 'Postcode':
         postcode = st.text_input('Postcode', value='EH11 1AS')
         postcode_data = country.query_postal_code(postcode)
         lat = postcode_data["latitude"]
         lon = postcode_data["longitude"]
-    button = st.form_submit_button(label="Continue")
-    
-with st.form(key="Input parameters"):
     annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
     PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
     surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
