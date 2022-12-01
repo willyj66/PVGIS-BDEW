@@ -30,7 +30,7 @@ Imput your property parameters, proposed PV install specifications, annual consu
 """
 
 
-col1, col2 = st.columns(2)
+col1, col2 = st.columns([1,2])
 @st.cache
 def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
     return makedf(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
