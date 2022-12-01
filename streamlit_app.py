@@ -26,6 +26,8 @@ df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
     )
 
 
+
+plot(t, PV, lw=6, alpha=0.8, color='orange', label = 'PV generation')
 """
 # Welcome to Streamlit!
 
@@ -39,22 +41,17 @@ In the meantime, below is an example of what you can do with just a few lines of
 
 
 with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
+    total_points=10
+    num_turns=2
+    month = st.slider("Month", 1, 12, 12)
+    PV = df[month]['PV generation']
+    #num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
+    source = pd.DataFrame({
+        't': t,
+        'y': PV
+    })
 
-    Point = namedtuple('Point', 'x y')
-    data = []
 
-    points_per_turn = total_points / num_turns
-
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
-
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+    st.altair_chart(alt.Chart(pd.DataFrame(source), height=500, width=500)
+        .mark_line(color='#0068c9', opacity=0.5)
+        .encode(x='t', y='y'))
