@@ -3,7 +3,7 @@ from EST_tidy_data import makedf
 import numpy as np
 import pandas as pd
 import altair as alt
-import math
+from io import BytesIO
 import pandas as pd
 import streamlit as st
 import pgeocode
@@ -68,7 +68,8 @@ with col2:
     chart.height=550
     st.altair_chart(chart,use_container_width=True)
 
-    def export_xlsx():
+    def export_xlsx(df):
+        output = BytesIO()
         year_df = pd.DataFrame(
             index = ['a','b','c'],
             columns = ['Annual \nDemand: ' + str(annual_consumption)+' kWh',
@@ -76,7 +77,7 @@ with col2:
              ('Annual PV \n used: ' + str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')])
         frames = [average,cloudy,sunny,bdew_demand,year_df]
         start_row = 1
-        writer = pd.ExcelWriter(PropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(PV_max_power)+"kWp.xlsx", engine='xlsxwriter')
+        writer = pd.ExcelWriter(output, engine='xlsxwriter')
         sheet_name='Monthly Percentages'
         for df in frames:  # assuming they're already DataFrames
             df.to_excel(writer, sheet_name, startrow=start_row, startcol=0, index=False)
@@ -85,10 +86,14 @@ with col2:
                 column_width = max(df[column].astype(str).map(len).max(), len(column))
                 col_idx = df.columns.get_loc(column)
                 writer.sheets[sheet_name].set_column(col_idx, col_idx, column_width)
+        writer.save()
+        processed_data = output.getvalue()
+        return processed_data
 
-        st.download_button(label='📥 Download Current Result',
-                                    data=writer ,
-                                    file_name= 'df_test.xlsx')
+    toexport = export_xlsx(df)
+    st.download_button(label='📥 Download Current Result',
+                                data=toexport ,
+                                file_name= PropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(PV_max_power)+"kWp.xlsx")
 
 
 
