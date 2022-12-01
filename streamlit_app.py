@@ -46,7 +46,6 @@ with st.form(key="Input parameters"):
     if location_method == 'Coordinates':
         lat = float(st.text_input('Latitude', value=56.140,))
         lon = float(st.text_input('Longitude',value =-3.919))
-        st.experimental_rerun()
     if location_method == 'Postcode':
         postcode = st.text_input('Postcode')
         postcode_data = country.query_postal_code(postcode)
