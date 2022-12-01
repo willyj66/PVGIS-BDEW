@@ -50,17 +50,17 @@ with col2:
     df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
                 property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
     month = st.slider("Month", 1, 12, 12)
-    #PV = pd.DataFrame({'t': t,'PV':df[month-1]['PV generation']})
-    #PV_min = pd.DataFrame({'t': t,'PV_min':df[month-1]['PV min']})
-    #PV_max = pd.DataFrame({'t': t,'y':df[month-1]['PV max']})
-    #workday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW workday']})
-    #saturday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW saturday']})
-    #sunday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW sunday']})
 
-    line = alt.Chart(df[month-1]).mark_line().encode(
+    PV = alt.Chart(df[month-1]).mark_line().encode(
     x='time',
     y='PV generation')
 
+    error = alt.Chart(df[month-1]).mark_area().encode(
+    x='time',
+    y='PV min',
+    y2='PV max',
+    alpha=0.3
+)
     #line2 = alt.Chart(PV_min).mark_line().encode(
     #x='t',
     #y='PV_min')
@@ -69,7 +69,7 @@ with col2:
     #y=alt.Y('Miles_per_Gallon', title='Miles/Gallon'),
     #)
 
-    st.altair_chart(line,
+    st.altair_chart(PV+error,
     use_container_width=True)
 
 
