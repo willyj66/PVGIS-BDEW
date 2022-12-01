@@ -1,5 +1,5 @@
 from EST_tidy_data import makedf
-from EST_gui import get_variables
+#from EST_gui import get_variables
 import numpy as np
 import pandas as pd
 from collections import namedtuple
