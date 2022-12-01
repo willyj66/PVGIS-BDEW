@@ -17,9 +17,15 @@ PropertyDict={
     "g4":"Shop or Barber","g5":"Bakery","g6":"Weekend Business","g7":"Mobile Phone Transmitter Station",
     "l0":"General Farm","l1":"Dairy or Livestock Farm", "l2":"Other Farm", "h0":"Household"}
 
-property_type, lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth = 'g0',56.140,-3.919,12000,8,0,35
+property_type, lat, lon, annual_consumption = 'g0',56.140,-3.919
 start = 2013
 end = 2016
+
+annual_consumption = st.number_input('Annual property consumption [kWh]')
+PV_max_power = st.number_input('PV system peak power [kWp]')
+surface_tilt = st.number_input('Surface tilt [degrees]',value=35)
+surface_azimuth = st.number_input('Surface tilt [degrees]',value=0)
+
 
 df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
     property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end
