@@ -29,7 +29,7 @@ Imput your property parameters, proposed PV install specifications, annual consu
 """
 
 with st.form(key="Input parameters"):
-    annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
+    annual_consumption = st.number_input('Annual property consumption [kWh]',value=0,step=1)
     PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
     surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
     surface_azimuth = st.number_input('Surface tilt [degrees]',value=0,step=1)
