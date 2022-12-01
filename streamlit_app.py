@@ -58,9 +58,7 @@ with col2:
     error = alt.Chart(df[month-1]).mark_area().encode(
     x='time',
     y='PV min',
-    y2='PV max',
-    alpha=0.3
-)
+    y2='PV max')
     #line2 = alt.Chart(PV_min).mark_line().encode(
     #x='t',
     #y='PV_min')
