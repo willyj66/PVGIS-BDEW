@@ -35,19 +35,18 @@ with st.form(key="Input parameters"):
     surface_azimuth = st.number_input('Surface tilt [degrees]',value=0,step=1)
     button = st.form_submit_button(label="Submit")
     if button ==False:
-        st.stop()
+        print('hshshs')
     else:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
         property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
-    
-    month = st.slider("Month", 1, 12, 12)
-    PV = df[month-1]['PV generation']
-    source = pd.DataFrame({
-    't': t,
-    'y': PV})
-    st.altair_chart(alt.Chart(pd.DataFrame(source), height=500, width=500)
-    .mark_line(color='#0068c9', opacity=0.5)
-    .encode(x='t', y='y'))
+        month = st.slider("Month", 1, 12, 12)
+        PV = df[month-1]['PV generation']
+        source = pd.DataFrame({
+        't': t,
+        'y': PV})
+        st.altair_chart(alt.Chart(pd.DataFrame(source), height=500, width=500)
+        .mark_line(color='#0068c9', opacity=0.5)
+        .encode(x='t', y='y'))
 
 
 
