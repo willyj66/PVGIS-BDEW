@@ -37,17 +37,17 @@ with st.form(key="Input parameters"):
     if button ==False:
         st.stop()
     else:
+        button==True
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = makedf(
         property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
-        with st.echo(code_location='below'):
-            month = st.slider("Month", 1, 12, 12)
-            PV = df[month-1]['PV generation']
-            source = pd.DataFrame({
-            't': t,
-            'y': PV})
-            st.altair_chart(alt.Chart(pd.DataFrame(source), height=500, width=500)
-            .mark_line(color='#0068c9', opacity=0.5)
-            .encode(x='t', y='y'))
+        month = st.slider("Month", 1, 12, 12)
+        PV = df[month-1]['PV generation']
+        source = pd.DataFrame({
+        't': t,
+        'y': PV})
+        st.altair_chart(alt.Chart(pd.DataFrame(source), height=500, width=500)
+        .mark_line(color='#0068c9', opacity=0.5)
+        .encode(x='t', y='y'))
 
 
 
@@ -59,7 +59,6 @@ with st.form(key="Input parameters"):
 
 
 
-    #num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
 
 
 
