@@ -56,10 +56,11 @@ with col2:
     workday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW workday']})
     saturday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW saturday']})
     sunday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW sunday']})
-    #chart = alt.Chart(df[month-1]).encode(x='time')
 
-    chart = alt.Chart(PV,height=600).mark_line(color='#0068c9', opacity=0.5).encode(x='t', y='y')
-    st.altair_chart(chart,
+    line = alt.Chart(PV).mark_line().encode(
+    x='t',
+    y='PV')
+    st.altair_chart(line,
     use_container_width=True)
 
 
