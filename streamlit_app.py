@@ -50,9 +50,13 @@ with col2:
     df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
                 property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
     month = st.slider("Month", 1, 12, 12)
-    PV = df[month-1]['PV generation']
-    source = pd.DataFrame({'t': t,'y': PV})
-    st.altair_chart(alt.Chart(pd.DataFrame(source), height=500, width=500)
+    PV = pd.DataFrame({'t': t,'y':df[month-1]['PV generation']})
+    PV_min = pd.DataFrame({'t': t,'y':df[month-1]['PV min']})
+    PV_max = pd.DataFrame({'t': t,'y':df[month-1]['PV max']})
+    workday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW workday']})
+    saturday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW saturday']})
+    sunday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW sunday']})
+    st.altair_chart(alt.Chart(PV, height=500, width=500)
     .mark_line(color='#0068c9', opacity=0.5)
     .encode(x='t', y='y'))
         
