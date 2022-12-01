@@ -19,7 +19,7 @@ PropertyDict={
     "l0":"General Farm","l1":"Dairy or Livestock Farm", "l2":"Other Farm", "h0":"Household"}
 invPropertyDict = {v: k for k, v in PropertyDict.items()}
 
-lat, lon = 56.140,-3.919
+#lat, lon = 56.140,-3.919
 start = 2013
 end = 2016
 
@@ -31,20 +31,21 @@ Imput your property parameters, proposed PV install specifications, annual consu
 """
 
 @st.cache
-def to_the_shop_to_get_your_PVGIS_data(property_type,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
+def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
     return makedf(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
 
 with st.form(key="Input parameters"):
     property_type = st.selectbox('What is the property type?',PropertyDict.values())
     location_method = st.selectbox('How would you like to input location?',('Postcode','Coordinates'))
     if location_method == 'Postcode':
-        postcode = st.text_input('Postcode')
+        postcode = st.text_input('Postcode', value='EH11 1AS')
         postcode_data = country.query_postal_code(postcode)
         lat = postcode_data["latitude"].values[0]
         lon = postcode_data["longitude"].values[0]
     elif location_method == 'Coordinates':
-        lat = float(st.text_input('Latitude'))
-        lat = float(st.text_input('Longitude'))
+        lat = float(st.text_input('Latitude', value=56.140,))
+        lat = float(st.text_input('Longitude',value =-3.919))
+
     annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
     PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
     surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
@@ -52,7 +53,7 @@ with st.form(key="Input parameters"):
     button = st.form_submit_button(label="Plot the plot!")
     if button:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
-            property_type,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
+            property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
         month = st.slider("Month", 1, 12, 12)
 
 
