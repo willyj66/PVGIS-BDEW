@@ -32,7 +32,7 @@ def to_the_shop_to_get_your_PVGIS_data(property_type,annual_consumption, PV_max_
     return makedf(property_type,lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
 
 with st.form(key="Input parameters"):
-    property_type = st.selectbox('What is the property type?',PropertyDict.values)
+    property_type = st.selectbox('What is the property type?',PropertyDict.values())
     annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
     PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
     surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
