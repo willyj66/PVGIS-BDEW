@@ -50,27 +50,20 @@ with col2:
     df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
                 property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
     month = st.slider("Month", 1, 12, 12)
-    PV = pd.DataFrame({'t': t,'y':df[month-1]['PV generation']})
-    PV_min = pd.DataFrame({'t': t,'y':df[month-1]['PV min']})
+    PV = pd.DataFrame({'t': t,'PV':df[month-1]['PV generation']})
+    PV_min = pd.DataFrame({'t': t,'PV_min':df[month-1]['PV min']})
     PV_max = pd.DataFrame({'t': t,'y':df[month-1]['PV max']})
-    workday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW workday']})
+    workday = pd.DataFrame({'t': t,'BDEW':df[month-1]['BDEW workday']})
     saturday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW saturday']})
     sunday = pd.DataFrame({'t': t,'y':df[month-1]['BDEW sunday']})
+    chart = alt.Chart(t).encode(x='t')
+    alt.layer(
+    chart.mark_line(color='blue').encode(y='PV'),
+    chart.mark_line(color='red').encode(y='BDEW')
+    )   
     chart = alt.Chart(PV,height=600).mark_line(color='#0068c9', opacity=0.5).encode(x='t', y='y')
     st.altair_chart(chart,
     use_container_width=True)
-        
-
-
-
-#        if location_method == 'Postcode':
-#            postcode = st.text_input('Postcode')
-#            postcode_data = country.query_postal_code(postcode)
-#            lat = float(postcode_data["latitude"])
-#            lon = float(postcode_data["longitude"])
-
-
-
 
 
 
