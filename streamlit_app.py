@@ -53,7 +53,7 @@ with col2:
 
     PV = alt.Chart(df[month-1]).mark_line().encode(
     x='time',
-    y=alt.Y('PV generation',scale=alt.Scale(domain=(0,PV_max_power))))
+    y=alt.Y('PV generation',scale=alt.Scale(domain=(0,PV_max_power*2/3))))
 
     error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='PV min',y2='PV max')
     if day == 'workday':
