@@ -43,7 +43,7 @@ with col1:
         postcode_data = country.query_postal_code(postcode)
         lat = float(postcode_data["latitude"])
         lon = float(postcode_data["longitude"])
-        st.text_area(label ="",value=lat, height =100)
+        st.code(str(lat))
     with st.form(key="Input parameters"):
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
