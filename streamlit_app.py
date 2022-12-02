@@ -63,8 +63,10 @@ with col2:
     elif day == 'sunday':
         BDEW = alt.Chart(df[month-1]).mark_line(color='red').encode(x='time',y='BDEW sunday')
 
-    chart = PV+error + BDEW
+    chart = PV+error +BDEW
     chart.height=450
+    chart.encode(
+    alt.Y('media',scale=alt.Scale(domain=(0,PV_max_power))))
     st.altair_chart(chart,use_container_width=True)
 
     def export_xlsx(df):
