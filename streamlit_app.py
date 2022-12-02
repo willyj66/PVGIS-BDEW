@@ -81,7 +81,7 @@ with col2:
     st.altair_chart(chart,use_container_width=True)
 
 with col3:
-    logo = Image.open('EST_logo.jpg')
+    logo = Image.open('logo.png')
     st.image(logo)
     def export_xlsx(df):
         output = BytesIO()
