@@ -7,6 +7,7 @@ from io import BytesIO
 import pandas as pd
 import streamlit as st
 import pgeocode
+from PIL import Image
 
 
 country = pgeocode.Nominatim("gb")
@@ -80,6 +81,8 @@ with col2:
     st.altair_chart(chart,use_container_width=True)
 
 with col3:
+    logo = Image.open('EST_logo.jpg')
+    st.image(logo)
     def export_xlsx(df):
         output = BytesIO()
         year_df = pd.DataFrame(
