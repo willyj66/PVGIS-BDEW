@@ -74,6 +74,8 @@ with col2:
 
     chart = PV+error +BDEW
     chart.height=530
+    chart.encode(
+    y=alt.Y('Power [kWh]', title='The Title'))
     st.altair_chart(chart,use_container_width=True)
 
     def export_xlsx(df):
