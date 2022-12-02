@@ -53,7 +53,7 @@ with col2:
 
     PV = alt.Chart(df[month-1]).mark_line().encode(
     x='time',
-    y='PV generation')
+    y=alt.Y('PV generation',scale=alt.Scale(domain=(0,PV_max_power))))
 
     error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='PV min',y2='PV max')
     if day == 'workday':
@@ -65,8 +65,6 @@ with col2:
 
     chart = PV+error +BDEW
     chart.height=450
-    chart.encode(
-    alt.Y('media',scale=alt.Scale(domain=(0,PV_max_power))))
     st.altair_chart(chart,use_container_width=True)
 
     def export_xlsx(df):
