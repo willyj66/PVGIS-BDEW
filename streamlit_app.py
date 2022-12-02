@@ -29,7 +29,7 @@ Made by Maxim Oweyssi for the Energy Saving Trust :heart:
 """
 
 
-col1, col2, col3 = st.columns([4,12,1])
+col1, col2, col3 = st.columns([4,12,1.1])
 @st.cache
 def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
     return makedf(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
@@ -78,6 +78,7 @@ with col2:
     chart = PV+error +BDEW
     chart.height=530
     st.altair_chart(chart,use_container_width=True)
+
 with col3:
     def export_xlsx(df):
         output = BytesIO()
