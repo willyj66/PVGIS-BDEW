@@ -60,9 +60,8 @@ with col2:
     month = invMonthDict[month_slider]
     day = st.radio("What day?",('workday','saturday','sunday'),horizontal=True,label_visibility='hidden')
 
-    stats = ('Annual Demand = '+str(annual_consumption) +' kWh\n'+
-            'Annual PV generated' + str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh          '+
-            'used:'+str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')
+    stats = ('Annual PV generation = ' + str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh             '+
+            'PV energy used per year = '+str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')
     st.code(stats)
     PV = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
     x='time',
