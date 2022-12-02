@@ -55,7 +55,7 @@ with col1:
 with col2:
     df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
                 property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
-    month = st.slider("Month", 1, 12, 12)
+    month = st.slider("Month", MonthDict.values())
     day = st.radio("What day?",('workday','saturday','sunday'),horizontal=True,label_visibility='hidden')
 
     PV = alt.Chart(df[month-1]).mark_line().encode(
