@@ -18,7 +18,6 @@ PropertyDict={
     "l0":"General Farm","l1":"Dairy or Livestock Farm", "l2":"Other Farm", "h0":"Household"}
 invPropertyDict = {v: k for k, v in PropertyDict.items()}
 
-#lat, lon = 56.140,-3.919
 start = 2013
 end = 2016
 st.set_page_config(layout="wide")
@@ -37,8 +36,17 @@ def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption,
 with col1:
     with st.form(key="Input parameters"):
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
-        lat = float(st.text_input('Latitude', value=56.140,))
-        lon = float(st.text_input('Longitude',value =-3.919))
+        location = st.radio("How to imput location?",("Coordinates","Postcode"),horizontal=True,label_visibility='hidden')
+        if location == "Coordinates":
+            lat = float(st.text_input('Latitude', value=56.140,))
+            lon = float(st.text_input('Longitude',value =-3.919))
+        elif location == "Postcode":
+            postcode = st.text_input('Latitude', value='EH11 1AS')
+            postcode_data = country.query_postal_code(postcode)
+            lat = float(postcode_data["latitude"])
+            lon = float(postcode_data["longitude"])
+
+
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
         PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
         surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
