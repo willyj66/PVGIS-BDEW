@@ -34,19 +34,17 @@ def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption,
     return makedf(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
 
 with col1:
+    location = st.radio("How to imput location?",("Coordinates","Postcode"),horizontal=True,label_visibility='hidden')
+    if location == "Coordinates":
+        lat = float(st.text_input('Latitude', value=56.140,))
+        lon = float(st.text_input('Longitude',value =-3.919))
+    elif location == "Postcode":
+        postcode = st.text_input('Latitude', value='EH11 1AS')
+        postcode_data = country.query_postal_code(postcode)
+        lat = float(postcode_data["latitude"])
+        lon = float(postcode_data["longitude"])
     with st.form(key="Input parameters"):
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
-        location = st.radio("How to imput location?",("Coordinates","Postcode"),horizontal=True,label_visibility='hidden')
-        if location == "Coordinates":
-            lat = float(st.text_input('Latitude', value=56.140,))
-            lon = float(st.text_input('Longitude',value =-3.919))
-        elif location == "Postcode":
-            postcode = st.text_input('Latitude', value='EH11 1AS')
-            postcode_data = country.query_postal_code(postcode)
-            lat = float(postcode_data["latitude"])
-            lon = float(postcode_data["longitude"])
-
-
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
         PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
         surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
