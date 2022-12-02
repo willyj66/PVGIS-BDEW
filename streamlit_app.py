@@ -62,7 +62,7 @@ with col2:
 
     stats = ('Annual Demand = '+str(annual_consumption) +' kWh\n'+
             'Annual PV generation' + str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh\n'+
-            'Annual PV \n used:'str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')
+            'Annual PV \n used:'+str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')
     st.code(stats)
     PV = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
     x='time',
