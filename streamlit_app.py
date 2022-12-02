@@ -12,6 +12,7 @@ import pgeocode
 country = pgeocode.Nominatim("gb")
 MonthDict={ 1 : "January", 2 : "February", 3 : "March", 4 : "April", 5 : "May", 6 : "June", 7: "July",
             8 : "August", 9 : "September", 10 : "October", 11 : "November",12 : "December"}
+invMonthDict = {v: k for k, v in MonthDict.items()}
 PropertyDict={
     "g0":"General Business", "g1":"Weekday Business","g2":"Evening Business","g3":"Continuous Business",
     "g4":"Shop or Barber","g5":"Bakery","g6":"Weekend Business",
@@ -55,7 +56,8 @@ with col1:
 with col2:
     df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
                 property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
-    month = st.slider("Month", MonthDict.values())
+    month_slider = st.select_slider("Month", MonthDict.values())
+    month = invMonthDict[month_slider]
     day = st.radio("What day?",('workday','saturday','sunday'),horizontal=True,label_visibility='hidden')
 
     PV = alt.Chart(df[month-1]).mark_line().encode(
