@@ -75,7 +75,7 @@ with col2:
     chart = PV+error +BDEW
     chart.height=530
     st.altair_chart(chart,use_container_width=True)
-    subcol1,subcol2 = st.columnt(2)
+    subcol1,subcol2 = st.columns(2)
     with subcol1:
         st.code("Latitude  = "+str(lat)+"\nLongitude = "+str(lon))
     with subcol2:
