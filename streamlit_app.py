@@ -26,7 +26,7 @@ st.set_page_config(layout="wide")
 
 """
 # Welcome to the PVGIS-BDEW Tool!
-Made by Maxim Oweyssi for the Energy Saving Trust :heart:
+Made with :heart: by the Energy Saving Trust
 """
 
 
