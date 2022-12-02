@@ -75,35 +75,33 @@ with col2:
     chart = PV+error +BDEW
     chart.height=530
     st.altair_chart(chart,use_container_width=True)
+    subcol1,subcol2 = st.columnt(2)
+    with subcol1:
+        st.code("Latitude  = "+str(lat)+"\nLongitude = "+str(lon))
+    with subcol2:
+        def export_xlsx(df):
+            output = BytesIO()
+            year_df = pd.DataFrame(
+                index = ['a','b','c'],
+                columns = ['Annual \nDemand: ' + str(annual_consumption)+' kWh',
+                 'Annual PV \ngeneration: ' + (str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh'),
+                 ('Annual PV \n used: ' + str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')])
+            frames = [average,cloudy,sunny,bdew_demand,year_df]
+            start_row = 1
+            writer = pd.ExcelWriter(output, engine='xlsxwriter')
+            sheet_name='Monthly Percentages'
+            for df in frames:  # assuming they're already DataFrames
+                df.to_excel(writer, sheet_name, startrow=start_row, startcol=0, index=False)
+                start_row += len(df) + 2  # add a row for the column header?
+                for column in df:
+                    column_width = max(df[column].astype(str).map(len).max(), len(column))
+                    col_idx = df.columns.get_loc(column)
+                    writer.sheets[sheet_name].set_column(col_idx, col_idx, column_width)
+            writer.save()
+            processed_data = output.getvalue()
+            return processed_data
 
-    def export_xlsx(df):
-        output = BytesIO()
-        year_df = pd.DataFrame(
-            index = ['a','b','c'],
-            columns = ['Annual \nDemand: ' + str(annual_consumption)+' kWh',
-             'Annual PV \ngeneration: ' + (str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh'),
-             ('Annual PV \n used: ' + str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')])
-        frames = [average,cloudy,sunny,bdew_demand,year_df]
-        start_row = 1
-        writer = pd.ExcelWriter(output, engine='xlsxwriter')
-        sheet_name='Monthly Percentages'
-        for df in frames:  # assuming they're already DataFrames
-            df.to_excel(writer, sheet_name, startrow=start_row, startcol=0, index=False)
-            start_row += len(df) + 2  # add a row for the column header?
-            for column in df:
-                column_width = max(df[column].astype(str).map(len).max(), len(column))
-                col_idx = df.columns.get_loc(column)
-                writer.sheets[sheet_name].set_column(col_idx, col_idx, column_width)
-        writer.save()
-        processed_data = output.getvalue()
-        return processed_data
-
-    toexport = export_xlsx(df)
-    st.download_button(label='📥 Download stats in Excel',
-                                data=toexport ,
-                                file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(PV_max_power)+"kWp.xlsx")
-
-
-
-
-
+        toexport = export_xlsx(df)
+        st.download_button(label='📥 Download stats in Excel',
+                                    data=toexport ,
+                                    file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(PV_max_power)+"kWp.xlsx")
