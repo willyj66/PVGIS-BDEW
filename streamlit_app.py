@@ -61,6 +61,7 @@ with col2:
         #
         """
         with col3:
+            """##\n##"""
             st.image(logo)
     else:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
@@ -90,6 +91,7 @@ with col2:
 
 with col3:
     if (lon,lat)!=(0,0):
+        """##\n##"""
         st.image(logo)
         def export_xlsx(df):
             output = BytesIO()
