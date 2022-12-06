@@ -63,9 +63,6 @@ with col2:
         """
         # Welcome to the PVGIS-BDEW Tool!
         Made with :heart: by the Energy Saving Trust
-        #
-        #
-        #
         """
         st.markdown('<sub><sup>All errors are 95% confidence intervals (i.e. 2x standard error on the mean)</sub></sup>',unsafe_allow_html=True)
         with col3:
