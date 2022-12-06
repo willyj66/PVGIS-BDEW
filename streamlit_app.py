@@ -116,7 +116,7 @@ with col3:
             return processed_data
 
         toexport = export_xlsx(df)
-        """##\n##\n#"""
+        """##\n##\n"""
         st.text("Download:\n")
         st.download_button(label='📥',
                                     data=toexport ,
