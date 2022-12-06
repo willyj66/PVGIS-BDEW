@@ -38,10 +38,10 @@ def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption,
 with col1:
     location = st.radio("How to imput location?",("Coordinates","Postcode"),horizontal=True,label_visibility='hidden')
     if location == "Coordinates":
-        lat = float(st.text_input('Latitude', value=56.140,))
-        lon = float(st.text_input('Longitude',value =-3.919))
+        lat = float(st.text_input('Latitude', value=0,))
+        lon = float(st.text_input('Longitude',value=0))
     elif location == "Postcode":
-        postcode = st.text_input('Postcode', value='EH11 1AS')
+        postcode = st.text_input('Postcode')
         postcode_data = country.query_postal_code(postcode)
         lat = float(postcode_data["latitude"])
         lon = float(postcode_data["longitude"])
@@ -55,30 +55,34 @@ with col1:
         button = st.form_submit_button(label="Plot the plot!")
             
 with col2:
-    df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
-                property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
-    month_slider = st.select_slider("Month", MonthDict.values(),label_visibility='hidden')
-    month = invMonthDict[month_slider]
-    day = st.radio("What day?",('workday','saturday','sunday'),horizontal=True,label_visibility='hidden')
-
-    stats = ('Annual PV generation = ' + str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh             '+
-            'PV energy used per year = '+str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')
-    st.code(stats)
-    PV = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
-    x='time',
-    y=alt.Y('PV generation',scale=alt.Scale(domain=(0,PV_max_power*2/3))))
-
-    error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='PV min',y2='PV max')
-    if day == 'workday':
-        BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW workday')
-    elif day == 'saturday':
-        BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW saturday')
-    elif day == 'sunday':
-        BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW sunday')
-
-    chart = PV+error +BDEW
-    chart.height=530
-    st.altair_chart(chart,use_container_width=True)
+    if (lon,lat) == (0,0):
+        logo = Image.open('logo.png')
+        st.image(logo)
+    else:
+        df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
+                    property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
+        month_slider = st.select_slider("Month", MonthDict.values(),label_visibility='hidden')
+        month = invMonthDict[month_slider]
+        day = st.radio("What day?",('workday','saturday','sunday'),horizontal=True,label_visibility='hidden')
+    
+        stats = ('Annual PV generation = ' + str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh             '+
+                'PV energy used per year = '+str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')
+        st.code(stats)
+        PV = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
+        x='time',
+        y=alt.Y('PV generation',scale=alt.Scale(domain=(0,PV_max_power*2/3))))
+    
+        error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='PV min',y2='PV max')
+        if day == 'workday':
+            BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW workday')
+        elif day == 'saturday':
+            BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW saturday')
+        elif day == 'sunday':
+            BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW sunday')
+    
+        chart = PV+error +BDEW
+        chart.height=530
+        st.altair_chart(chart,use_container_width=True)
 
 with col3:
     logo = Image.open('logo.png')
