@@ -60,7 +60,7 @@ with col1:
 with col2:
     if (lon,lat) == (0,0):
         logo = Image.open('logo.png')
-        st.image(logo,width=500)
+        st.image(logo,width=700)
     else:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
                     property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
