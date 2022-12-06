@@ -113,13 +113,13 @@ with col3:
             return processed_data
 
         toexport = export_xlsx(df)
-        """##\n##\n##\n##\n##"""
+        """##\n##\n##\n##\n#"""
         st.text("Download:\n")
         st.download_button(label='📥',
                                     data=toexport ,
                                     file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(PV_max_power)+"kWp.xlsx")
         logo = Image.open('logo.png')
-        """##\n##\n##\n##"""
+        """##\n##\n##\n##\n##\n##"""
         st.image(logo)
 
 
