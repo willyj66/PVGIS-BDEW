@@ -42,10 +42,13 @@ with col1:
         lon = float(st.text_input('Longitude',value=0))
     elif location == "Postcode":
         postcode = st.text_input('Postcode')
-        postcode_data = country.query_postal_code(postcode)
-        lat = float(postcode_data["latitude"])
-        lon = float(postcode_data["longitude"])
-        st.code("Latitude  = "+str(lat)+"\nLongitude = "+str(lon))
+        if postcode!="":
+            postcode_data = country.query_postal_code(postcode)
+            lat = float(postcode_data["latitude"])
+            lon = float(postcode_data["longitude"])
+            st.code("Latitude  = "+str(lat)+"\nLongitude = "+str(lon))
+        else:
+            lat,lon=0,0
     with st.form(key="Input parameters"):
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
@@ -56,9 +59,6 @@ with col1:
             
 with col2:
     if (lon,lat) == (0,0):
-        logo = Image.open('logo.png')
-        st.image(logo)
-    elif postcode=="":
         logo = Image.open('logo.png')
         st.image(logo)
     else:
