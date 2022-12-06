@@ -23,6 +23,13 @@ invPropertyDict = {v: k for k, v in PropertyDict.items()}
 start = 2013
 end = 2016
 st.set_page_config(layout="wide")
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 logo = Image.open('logo.png')
 col1, col2, col3 = st.columns([4,12,1.1])
 @st.cache
@@ -55,12 +62,12 @@ with col2:
     if (lon,lat) == (0,0):
         """
         # Welcome to the PVGIS-BDEW Tool!
-        Made with :heart: by the Energy Saving Trust[^1]
+        Made with :heart: by the Energy Saving Trust
         #
         #
         #
+        All errors are 95% confidence intervals (i.e. 2x standard error on the mean)
         """
-        st.footer("All errors are 95\% confidence intervals (i.e. 2x standard error on the mean)")
         with col3:
             """##\n##"""
             st.image(logo)
