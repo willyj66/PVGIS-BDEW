@@ -85,7 +85,7 @@ with col2:
         st.altair_chart(chart,use_container_width=True)
 
 with col3:
-        if (lon,lat)!=(0,0):
+    if (lon,lat)!=(0,0):
         logo = Image.open('logo.png')
         st.image(logo)
         def export_xlsx(df):
@@ -109,7 +109,7 @@ with col3:
             writer.save()
             processed_data = output.getvalue()
             return processed_data
-    
+
         toexport = export_xlsx(df)
         st.download_button(label='📥',
                                     data=toexport ,
