@@ -23,7 +23,7 @@ invPropertyDict = {v: k for k, v in PropertyDict.items()}
 start = 2013
 end = 2016
 st.set_page_config(layout="wide")
-
+logo = Image.open('logo.png')
 col1, col2, col3 = st.columns([4,12,1.1])
 @st.cache
 def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
@@ -61,7 +61,6 @@ with col2:
         #
         """
         with col3:
-            logo = Image.open('logo.png')
             st.image(logo)
     else:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
@@ -91,7 +90,7 @@ with col2:
 
 with col3:
     if (lon,lat)!=(0,0):
-
+        st.image(logo)
         def export_xlsx(df):
             output = BytesIO()
             year_df = pd.DataFrame(
@@ -120,9 +119,9 @@ with col3:
         st.download_button(label='📥',
                                     data=toexport ,
                                     file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(PV_max_power)+"kWp.xlsx")
-        logo = Image.open('logo.png')
-        """##\n##\n##\n##\n##\n##"""
-        st.image(logo)
+        
+
+        
 
 
 
