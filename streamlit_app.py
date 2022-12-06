@@ -38,7 +38,7 @@ def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption,
 with col1:
     location = st.radio("How to imput location?",("Coordinates","Postcode"),horizontal=True,label_visibility='hidden')
     if location == "Coordinates":
-        lat = float(st.text_input('Latitude', value=0,))
+        lat = float(st.text_input('Latitude', value=0))
         lon = float(st.text_input('Longitude',value=0))
     elif location == "Postcode":
         postcode = st.text_input('Postcode')
@@ -60,7 +60,7 @@ with col1:
 with col2:
     if (lon,lat) == (0,0):
         logo = Image.open('logo.png')
-        st.image(logo)
+        st.image(logo,width=500)
     else:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
                     property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
