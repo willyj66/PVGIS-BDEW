@@ -59,8 +59,8 @@ with col2:
         #
         #
         #
-        [^1]:All errors are 95% confidence intervals (i.e. 2x standard error on the mean)
         """
+        st.footer("All errors are 95\% confidence intervals (i.e. 2x standard error on the mean)")
         with col3:
             """##\n##"""
             st.image(logo)
