@@ -118,7 +118,11 @@ with col3:
                                     data=toexport ,
                                     file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(PV_max_power)+"kWp.xlsx")
         logo = Image.open('logo.png')
-        st.markdown('###')
+        """
+        ##
+        ##
+        ##
+        """
         st.image(logo)
 
 
