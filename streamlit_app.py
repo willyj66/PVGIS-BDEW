@@ -56,9 +56,11 @@ with col2:
         """
         # Welcome to the PVGIS-BDEW Tool!
         Made with :heart: by the Energy Saving Trust
+
+
         """
         logo = Image.open('logo.png')
-        st.image(logo,width=700)
+        st.image(logo)
     else:
         df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
                     property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
