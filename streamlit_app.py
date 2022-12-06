@@ -89,8 +89,7 @@ with col2:
 
 with col3:
     if (lon,lat)!=(0,0):
-        logo = Image.open('logo.png')
-        st.image(logo)
+
         def export_xlsx(df):
             output = BytesIO()
             year_df = pd.DataFrame(
@@ -118,7 +117,8 @@ with col3:
         st.download_button(label='📥',
                                     data=toexport ,
                                     file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(PV_max_power)+"kWp.xlsx")
-
+        logo = Image.open('logo.png')
+        st.image(logo)
 
 
 
