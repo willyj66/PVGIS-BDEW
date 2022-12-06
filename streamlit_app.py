@@ -56,7 +56,9 @@ with col2:
         """
         # Welcome to the PVGIS-BDEW Tool!
         Made with :heart: by the Energy Saving Trust
-        ##\n##\n##
+        #
+        #
+        #
         """
         logo = Image.open('logo.png')
         st.image(logo,width=100)
