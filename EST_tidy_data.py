@@ -2,7 +2,6 @@ from EST_BDEW import get_BDEW
 from EST_PVGIS import PV_power
 import numpy as np
 import pandas as pd
-import math
 
 MonthDict={ 1 : "January", 2 : "February", 3 : "March", 4 : "April", 5 : "May", 6 : "June", 7: "July",
             8 : "August", 9 : "September", 10 : "October", 11 : "November",12 : "December"}
