@@ -2,9 +2,7 @@ from EST_BDEW import get_BDEW
 from EST_PVGIS import PV_power
 import numpy as np
 import pandas as pd
-"""
-http://127.0.0.1:8050/pv?postcode=N1%209NG&property_type=g5&pv_max_power=15&surface_azimuth=35&lonlat=False&lat=56.140&lon=-3.919&annual_consumption=12000&start_year=2015&end_year=2016
-"""
+import math
 
 MonthDict={ 1 : "January", 2 : "February", 3 : "March", 4 : "April", 5 : "May", 6 : "June", 7: "July",
             8 : "August", 9 : "September", 10 : "October", 11 : "November",12 : "December"}
@@ -16,15 +14,45 @@ PropertyDict={
 
 def makedf(property_type, lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start_year, end_year):
 
-    generation_hourly, error_hourly, yearly_generation, yearly_used  = PV_power(PV_max_power,start_year,end_year,lat,lon,surface_tilt, surface_azimuth,property_type, annual_consumption)
+    generation_hourly, error_hourly, yearly_generation, yearly_used  = PV_power(
+        PV_max_power,start_year,end_year,lat,lon,surface_tilt, surface_azimuth,property_type, annual_consumption
+        )
     time_hourly = np.linspace(0,24,24)
     time = np.linspace(0,24,24*4)
     workday, saturday, sunday = get_BDEW(property_type,2022,annual_consumption)
     df_list = []
-    bdew_demand = {'Workday\n Demand [kWh]':[],'Saturday\n Demand [kWh]':[],'Sunday\n Demand [kWh]':[]}
-    average = {'PV\n Generation [kWh]':[],'Workday Demand\n Covered by PV':[],'Saturday Demand\n Covered by PV':[], 'Sunday Demand\n Covered by PV':[], 'Workday PV\n Used by Demand':[], 'Saturday PV\n Used by Demand':[], 'Sunday PV\n Used by Demand':[]}
-    min = {'Cloudy\n PV\n Generation [kWh]':[],'Cloudy\n Workday Demand\n Covered by PV':[],'Cloudy\n Saturday Demand\n Covered by PV':[], 'Cloudy\n Sunday Demand\n Covered by PV':[], 'Cloudy\n Workday PV\n Used by Demand':[], 'Cloudy\n Saturday PV\n Used by Demand':[], 'Cloudy\n Sunday PV\n Used by Demand':[]}
-    max = {'Sunny\n PV\n Generation [kWh]':[],'Sunny\n Workday Demand\n Covered by PV':[],'Sunny\n Saturday Demand\n Covered by PV':[], 'Sunny\n Sunday Demand\n Covered by PV':[], 'Sunny\n Workday PV\n Used by Demand':[], 'Sunny\n Saturday PV\n Used by Demand':[], 'Sunny\n Sunday PV\n Used by Demand':[]}
+    bdew_demand = {
+        "Workday\n Demand [kWh]": [],
+        "Saturday\n Demand [kWh]": [],
+        "Sunday\n Demand [kWh]": [],
+    }
+    average = {
+        "PV\n Generation [kWh]": [],
+        "Workday Demand\n Covered by PV": [],
+        "Saturday Demand\n Covered by PV": [],
+        "Sunday Demand\n Covered by PV": [],
+        "Workday PV\n Used by Demand": [],
+        "Saturday PV\n Used by Demand": [],
+        "Sunday PV\n Used by Demand": [],
+    }
+    min = {
+        "Cloudy\n PV\n Generation [kWh]": [],
+        "Cloudy\n Workday Demand\n Covered by PV": [],
+        "Cloudy\n Saturday Demand\n Covered by PV": [],
+        "Cloudy\n Sunday Demand\n Covered by PV": [],
+        "Cloudy\n Workday PV\n Used by Demand": [],
+        "Cloudy\n Saturday PV\n Used by Demand": [],
+        "Cloudy\n Sunday PV\n Used by Demand": [],
+    }
+    max = {
+        "Sunny\n PV\n Generation [kWh]": [],
+        "Sunny\n Workday Demand\n Covered by PV": [],
+        "Sunny\n Saturday Demand\n Covered by PV": [],
+        "Sunny\n Sunday Demand\n Covered by PV": [],
+        "Sunny\n Workday PV\n Used by Demand": [],
+        "Sunny\n Saturday PV\n Used by Demand": [],
+        "Sunny\n Sunday PV\n Used by Demand": [],
+    }
 
     for month in range(12):
         df=pd.DataFrame()
@@ -84,13 +112,6 @@ def makedf(property_type, lat, lon, annual_consumption, PV_max_power, surface_ti
         
 
         """Write time-data into Pandas data frame"""
-        #df['PV generation']      = generation
-        #df['PV min']             = generation_min
-        #df['PV max']             = generation_max
-        #df['BDEW workday']       = workday[month]
-        #df['BDEW saturday']      = saturday[month]
-        #df['BDEW sunday']        = sunday[month]
-
         df = pd.DataFrame({
             'time'          : time,
             'PV generation' : generation,
@@ -133,4 +154,11 @@ def makedf(property_type, lat, lon, annual_consumption, PV_max_power, surface_ti
 
         df_list.append(df)
 
-    return df_list, pd.DataFrame(average),pd.DataFrame(min),pd.DataFrame(max),pd.DataFrame(bdew_demand), time, yearly_generation, yearly_used
+    return (df_list,
+            pd.DataFrame(average),
+            pd.DataFrame(min),
+            pd.DataFrame(max),
+            pd.DataFrame(bdew_demand),
+            time,
+            yearly_generation,
+            yearly_used)
