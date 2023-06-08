@@ -8,7 +8,6 @@ import streamlit as st
 import pgeocode
 from PIL import Image
 
-
 country = pgeocode.Nominatim("gb")
 MonthDict={ 1 : "January", 2 : "February", 3 : "March", 4 : "April", 5 : "May", 6 : "June", 7: "July",
             8 : "August", 9 : "September", 10 : "October", 11 : "November",12 : "December"}
@@ -22,6 +21,7 @@ invPropertyDict = {v: k for k, v in PropertyDict.items()}
 start = 2013
 end = 2016
 st.set_page_config(layout="wide")
+
 #hide_streamlit_style = """
 #            <style>
 #            #MainMenu {visibility: hidden;}
@@ -29,9 +29,10 @@ st.set_page_config(layout="wide")
 #            </style>
 #            """
 #st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
 logo = Image.open('logo.png')
 col1, col2, col3 = st.columns([4,12,1.1])
-#@st.cache
+@st.cache
 def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
     return makedf(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
 

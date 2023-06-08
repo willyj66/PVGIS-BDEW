@@ -36,7 +36,7 @@ def add_weekdays2df(time_df, holidays=None, holiday_is_sunday=False):
         if isinstance(holidays, dict):
             holidays = list(holidays.keys())
         time_df['weekday'].mask(pd.to_datetime(time_df['date']).isin(
-            pd.to_datetime(holidays)), 0, True)
+            pd.to_datetime(holidays)), axis=0, inplace=True)
 
     if holiday_is_sunday:
         time_df.weekday.mask(time_df.weekday == 0, 7, True)
