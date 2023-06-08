@@ -1,6 +1,7 @@
 altair
 pandas
 streamlit
+demandlib
 workalendar
 numpy
 pathlib
