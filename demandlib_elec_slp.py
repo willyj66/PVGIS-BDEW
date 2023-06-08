@@ -80,10 +80,10 @@ class ElecSlp:
             """
             Calculates the hourly electricity load profile in MWh/h of a region.
             """
-    
+
             # define file path of slp csv data
-            file_path = os.path.join(self.datapath, "selp_series.csv")
-    
+            file_path = os.path.join(self.datapath, "demandlib_selp_series.csv")
+
             # Read standard load profile series from csv file
             selp_series = pd.read_csv(file_path)
             tmp_df = selp_series
@@ -93,25 +93,25 @@ class ElecSlp:
                 datetime.datetime(2007, 1, 1, 0), periods=2016, freq="15Min"
             )
             tmp_df.set_index(index, inplace=True)
-    
+
             # Create empty DataFrame to take the results.
             new_df = pd.DataFrame(index=dt_index, columns=slp_types).fillna(0)
             new_df = add_weekdays2df(
                 new_df, holidays=holidays, holiday_is_sunday=True
             )
-    
+
             new_df["hour"] = dt_index.hour
             new_df["minute"] = dt_index.minute
             time_df = new_df[["date", "hour", "minute", "weekday"]].copy()
             tmp_df[slp_types] = tmp_df[slp_types].astype(float)
-    
+
             # Inner join the slps on the time_df to the slp's for a whole year
             tmp_df["hour_of_day"] = tmp_df.index.hour
             tmp_df["minute_of_hour"] = tmp_df.index.minute
             left_cols = ["hour_of_day", "minute_of_hour", "weekday"]
             right_cols = ["hour", "minute", "weekday"]
             tmp_df = tmp_df.reset_index(drop=True)
-    
+
             for p in self.seasons.keys():
                 a = datetime.datetime(
                     self.year, self.seasons[p][0], self.seasons[p][1], 0, 0
@@ -126,21 +126,21 @@ class ElecSlp:
                     right_on=right_cols,
                     how="inner",
                 ).drop(labels=["hour_of_day"], axis=1)
-    
+
                 merged_df.index = (
                     pd.to_datetime(merged_df["date"])
                     + pd.to_timedelta(merged_df["hour"], unit="h")
                     + pd.to_timedelta(merged_df["minute"], unit="m")
                 )
                 merged_df.sort_index(inplace=True)
-    
+
                 new_df.update(merged_df)
-    
+
             new_df.drop(
                 ["date", "minute", "hour", "weekday"], axis=1, inplace=True
             )
             return new_df.div(new_df.sum(axis=0), axis=1)
-    
+
 
     def get_profile(self, ann_el_demand_per_sector,
                     dyn_function_h0: bool = None):
