@@ -15,8 +15,11 @@ h0/h0_dyn	Household/dynamic houshold
 
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
-from demandlib_elec_slp import ElecSlp
-import demandlib_particular_profiles as profiles
+#from demandlib_elec_slp import ElecSlp
+#import demandlib_particular_profiles as profiles
+#
+from demandlib.bdew.elec_slp import ElecSlp
+import demandlib.particular_profiles as profiles
 from workalendar.europe import UnitedKingdom
 from workalendar.core import MON, SAT, SUN
 
