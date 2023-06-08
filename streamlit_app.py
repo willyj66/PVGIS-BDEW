@@ -21,14 +21,14 @@ invPropertyDict = {v: k for k, v in PropertyDict.items()}
 
 start = 2013
 end = 2016
-st.set_page_config(layout="wide")
-hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+#st.set_page_config(layout="wide")
+#hide_streamlit_style = """
+#            <style>
+#            #MainMenu {visibility: hidden;}
+#            footer {visibility: hidden;}
+#            </style>
+#            """
+#st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 logo = Image.open('logo.png')
 col1, col2, col3 = st.columns([4,12,1.1])
 @st.cache
