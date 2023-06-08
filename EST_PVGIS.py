@@ -81,6 +81,6 @@ def PV_power(
     return (
         daily_average / 1000,
         daily_error / 1000,
-        (int(np.mean(yearly_gen)), int(2 * gen_error)),
-        (int(np.mean(yearly_use)), int(2 * use_error)),
+        (int(np.mean(yearly_gen)), int(1.96 * gen_error)),
+        (int(np.mean(yearly_use)), int(1.96 * use_error)),
     )  # convert into kWh

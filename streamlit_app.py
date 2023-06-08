@@ -64,7 +64,7 @@ with col2:
         # Welcome to the PVGIS-BDEW Tool!
         Made with :heart: by the Energy Saving Trust
         """
-        st.markdown('<sub><sup>All errors are 95% confidence intervals (i.e. 2x standard error on the mean)</sub></sup>',unsafe_allow_html=True)
+        st.markdown('<sub><sup>All errors are 95% confidence intervals (i.e. 1.96 x standard error on the mean)</sub></sup>',unsafe_allow_html=True)
         with col3:
             """##\n##"""
             st.image(logo)
@@ -116,7 +116,7 @@ with col3:
                     column_width = max(df[column].astype(str).map(len).max(), len(column))
                     col_idx = df.columns.get_loc(column)
                     writer.sheets[sheet_name].set_column(col_idx, col_idx, column_width)
-            writer.close()
+            writer.save()
             processed_data = output.getvalue()
             return processed_data
 
