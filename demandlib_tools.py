@@ -28,17 +28,22 @@ def add_weekdays2df(time_df, holidays=None, holiday_is_sunday=False):
     Using Pandas > 0.16
 
     """
-    time_df['weekday'] = time_df.index.weekday + 1
-    time_df['date'] = time_df.index.date
+    time_df["weekday"] = time_df.index.weekday + 1
+    time_df["date"] = time_df.index.date
 
     # Set weekday to Holiday (0) for all holidays
     if holidays is not None:
         if isinstance(holidays, dict):
             holidays = list(holidays.keys())
-        time_df['weekday'].mask(pd.to_datetime(time_df['date']).isin(
-            pd.to_datetime(holidays)), axis=0, inplace=True)
+        time_df["weekday"].mask(
+            cond=pd.to_datetime(time_df["date"]).isin(
+                pd.to_datetime(holidays)
+            ),
+            other=0,
+            inplace=True,
+        )
 
     if holiday_is_sunday:
-        time_df.weekday.mask(time_df.weekday == 0, 7, True)
+        time_df.weekday.mask(cond=time_df.weekday == 0, other=7, inplace=True)
 
     return time_df
