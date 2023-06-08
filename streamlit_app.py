@@ -21,7 +21,7 @@ invPropertyDict = {v: k for k, v in PropertyDict.items()}
 
 start = 2013
 end = 2016
-#st.set_page_config(layout="wide")
+st.set_page_config(layout="wide")
 #hide_streamlit_style = """
 #            <style>
 #            #MainMenu {visibility: hidden;}
