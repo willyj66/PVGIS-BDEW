@@ -32,7 +32,7 @@ st.set_page_config(layout="wide")
 
 logo = Image.open('logo.png')
 col1, col2, col3 = st.columns([4,12,1.1])
-@st.cache_data
+@st.cache
 def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
     return makedf(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
 
