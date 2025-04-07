@@ -1,4 +1,6 @@
 """
+This script creates functions which are used to extract the BDEW profiles defined below:
+    
 g0	        General trade/business/commerce	                                            Weighted average of profiles G1-G6
 g1	        Business on weekdays 8 a.m. - 6 p.m.	                                    e.g. offices, doctors surgeries, workshops, administrative facilities
 g2	        Businesses with heavy to predominant consumption in the evening hours	    e.g. sports clubs, fitness studios, evening restaurants
@@ -11,6 +13,8 @@ l0	        General farms	                                                       
 l1	        Farms with dairy farming/part-time livestock farming	 
 l2	        Other farms	 
 h0/h0_dyn	Household/dynamic houshold
+
+The following functions are used 
 """
 
 import warnings

@@ -2,10 +2,12 @@ from pvlib_parse import get_pvgis_hourly
 import pandas as pd
 import numpy as np
 from EST_BDEW import yearly_BDEW
+from PVBatteryModelFunctions import GenBatteryModel
 
 
 def PV_power(
     max_power,
+    battery_size_kWh,
     startyear,
     endyear,
     latitude,
@@ -34,8 +36,9 @@ def PV_power(
     years = np.arange(startyear, endyear + 1, 1).tolist()
     all_years_daily_average = []
     all_years_daily_error = []
-    yearly_gen = []
-    yearly_use = []
+    yearly_gen_pv_only = []
+    yearly_use_pv_only = []
+    yearly_use_battery = []
     for year in years:
 
         """MONTHLY ANALYSIS"""
@@ -68,19 +71,54 @@ def PV_power(
         )
         yearly_demand = yearly_demand[property_type]
         yearly_pv = data["P"][str(year)] / 1000
+        
+        # Add logic for pv battery model
+        pv_profile = yearly_pv.reset_index().rename(columns = {
+            "time":"Time",
+            "P":"GenerationEnergy_kWh"})
+        
+        demand_profile = yearly_demand.reset_index().rename(columns = {"index":"Time", property_type: "ElectricityDemandAC_kWh"})
+        
+        pv_profile['Time'] = pd.to_datetime(pv_profile['Time'], utc=True).dt.floor('H')
+        demand_profile['Time'] = pd.to_datetime(demand_profile['Time'], utc=True).dt.floor('H')
+
+        
+        combined_profile = pd.merge(pv_profile, demand_profile, on = "Time")
+        
+        if battery_size_kWh > 0:
+            run_battery_model = GenBatteryModel(combined_profile, BatterySize_kWh = battery_size_kWh)
+            yearly_use_battery.append(run_battery_model["pv_self_consumption"].astype("int"))
+        
         intersection = np.amin([yearly_demand, yearly_pv], axis=0)
-        yearly_gen.append(np.sum(yearly_pv).astype(int))
-        yearly_use.append(np.sum(intersection).astype(int))
+        yearly_gen_pv_only.append(np.sum(yearly_pv).astype(int))
+        yearly_use_pv_only.append(np.sum(intersection).astype(int))
 
     daily_average = np.mean(all_years_daily_average, axis=0)
     daily_error = np.sqrt(np.sum(np.square(all_years_daily_error), axis=0)) / numyears
-
-    gen_error = np.std(np.array(yearly_gen), ddof=1) / np.sqrt(len(yearly_gen))
-    use_error = np.std(np.array(yearly_use), ddof=1) / np.sqrt(len(yearly_use))
+    
+    gen_error = np.std(np.array(yearly_gen_pv_only), ddof=1) / np.sqrt(len(yearly_gen_pv_only))
+    use_error = np.std(np.array(yearly_use_pv_only), ddof=1) / np.sqrt(len(yearly_use_pv_only))
+    
+    generation_total_mean = int(np.mean(yearly_gen_pv_only))
+    generation_total_ci = int(1.96*gen_error)
+    pv_only_self_cons_mean = int(np.mean(yearly_use_pv_only))
+    pv_only_self_cons_ci = int(1.96*use_error)
+    
+    if battery_size_kWh > 0:        
+        batt_error = np.std(np.array(yearly_use_battery), ddof=1) / np.sqrt(len(yearly_use_battery))
+        pv_battery_self_cons_mean = int(np.mean(yearly_use_battery))
+        pv_battery_self_cons_ci = int(1.96*batt_error)
+    else:
+        batt_error = np.nan
+        pv_battery_self_cons_mean = np.nan
+        pv_battery_self_cons_ci = np.nan
 
     return (
         daily_average / 1000,
         daily_error / 1000,
-        (int(np.mean(yearly_gen)), int(1.96 * gen_error)),
-        (int(np.mean(yearly_use)), int(1.96 * use_error)),
+        (generation_total_mean, generation_total_ci),
+        (pv_only_self_cons_mean, pv_only_self_cons_ci),
+        (pv_battery_self_cons_mean, pv_battery_self_cons_ci)
     )  # convert into kWh
+
+

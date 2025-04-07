@@ -33,8 +33,8 @@ st.set_page_config(layout="wide")
 logo = Image.open('logo.png')
 col1, col2, col3 = st.columns([4,12,1.1])
 @st.cache
-def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth):
-    return makedf(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power, surface_tilt, surface_azimuth,start, end)
+def to_the_shop_to_get_your_PVGIS_data(property_type,lat,lon,annual_consumption, PV_max_power, battery_capacity_kWh, surface_tilt, surface_azimuth):
+    return makedf(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power, battery_capacity_kWh, surface_tilt, surface_azimuth,start, end)
 
 with col1:
     location = st.radio("How to imput location?",("Coordinates","Postcode"),horizontal=True,label_visibility='hidden')
@@ -53,7 +53,8 @@ with col1:
     with st.form(key="Input parameters"):
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
-        PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
+        PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=0.1)
+        battery_capacity_kWh = st.number_input('Battery Capacity [kWh]',value=5,step=0.1)
         surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
         surface_azimuth = st.number_input('Surface azimuth [degrees]',value=0,step=1)
         button = st.form_submit_button(label="Plot the plot!")
@@ -69,14 +70,15 @@ with col2:
             """##\n##"""
             st.image(logo)
     else:
-        df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use = to_the_shop_to_get_your_PVGIS_data(
-                    property_type,lat,lon,annual_consumption, PV_max_power, surface_tilt, surface_azimuth)
+        df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_use_pv_only, yearly_used_pv_battery = to_the_shop_to_get_your_PVGIS_data(
+                    property_type,lat,lon,annual_consumption, PV_max_power, battery_capacity_kWh, surface_tilt, surface_azimuth)
         month_slider = st.select_slider("Month", MonthDict.values(),label_visibility='hidden')
         month = invMonthDict[month_slider]
         day = st.radio("What day?",('workday','saturday','sunday'),horizontal=True,label_visibility='hidden')
 
         stats = ('Annual PV generation = ' + str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh             '+
-                'PV energy used per year = '+str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')
+                'PV energy used per year (PV only) = '+str(yearly_use_pv_only[0])+' ± '+str(yearly_use_pv_only[1])+' kWh',
+                'PV energy used per year (battery) = '+str(yearly_used_pv_battery[0])+' ± '+str(yearly_used_pv_battery[1])+' kWh',)
         st.code(stats)
         PV = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
         x='time',
@@ -101,10 +103,11 @@ with col3:
         def export_xlsx(df):
             output = BytesIO()
             year_df = pd.DataFrame(
-                index = ['a','b','c'],
+                index = ['a','b','c','d'],
                 columns = ['Annual \nDemand: ' + str(annual_consumption)+' kWh',
                  'Annual PV \ngeneration: ' + (str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh'),
-                 ('Annual PV \n used: ' + str(yearly_use[0])+' ± '+str(yearly_use[1])+' kWh')])
+                 ('Annual PV \n used (PV only): ' + str(yearly_use_pv_only[0])+' ± '+str(yearly_use_pv_only[1])+' kWh'),
+                 ('Annual PV \n used (PV and battery): ' + str(yearly_used_pv_battery[0])+' ± '+str(yearly_used_pv_battery[1])+' kWh')])
             frames = [average,cloudy,sunny,bdew_demand,year_df]
             start_row = 1
             writer = pd.ExcelWriter(output, engine='xlsxwriter')
