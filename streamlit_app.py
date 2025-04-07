@@ -54,7 +54,7 @@ with col1:
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
         PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
-        battery_capacity_kWh = st.number_input('Battery Capacity [kWh]',value=5,step=1)
+        battery_capacity_kWh = st.number_input('Battery Capacity [kWh]',value=5,step=0.1)
         surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
         surface_azimuth = st.number_input('Surface azimuth [degrees]',value=0,step=1)
         button = st.form_submit_button(label="Plot the plot!")
@@ -80,6 +80,11 @@ with col2:
                 'PV energy used per year (PV only) = '+str(yearly_use_pv_only[0])+' ± '+str(yearly_use_pv_only[1])+' kWh\n',
                 'PV energy used per year (battery) = '+str(yearly_used_pv_battery[0])+' ± '+str(yearly_used_pv_battery[1])+' kWh',)
         st.code(stats)
+        
+        st.markdown(f"**Annual PV generation** = {yearly_gen[0]} ± {yearly_gen[1]} kWh")
+        st.markdown(f"**PV energy used per year (PV only)** = {yearly_use_pv_only[0]} ± {yearly_use_pv_only[1]} kWh")
+        st.markdown(f"**PV energy used per year (battery)** = {yearly_used_pv_battery[0]} ± {yearly_used_pv_battery[1]} kWh")
+        
         PV = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
         x='time',
         y=alt.Y('PV generation',scale=alt.Scale(domain=(0,PV_max_power*2/3))))
