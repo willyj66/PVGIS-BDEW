@@ -54,7 +54,7 @@ with col1:
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
         PV_max_power = st.number_input('PV system peak power [kWp]',value=5,step=1)
-        battery_capacity_kWh = st.number_input('Battery Capacity [kWh]',value=5,step=0.1)
+        battery_capacity_kWh = st.number_input('Battery Capacity [kWh]',value=5.0,step=0.1, min_value=0.0)
         surface_tilt = st.number_input('Surface tilt [degrees]',value=35,step=1)
         surface_azimuth = st.number_input('Surface azimuth [degrees]',value=0,step=1)
         button = st.form_submit_button(label="Plot the plot!")
