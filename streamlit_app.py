@@ -90,24 +90,24 @@ with col2:
         st.markdown(f"**PV energy used per year (battery)**  = {yearly_used_pv_battery[0]:<5} ± {yearly_used_pv_battery[1]:<4} kWh")
         
         table = f"""
-        <table style="width:80%; text-align:left; margin: auto;">
+        <table style="width:80%; text-align:left; margin: auto; border-collapse: collapse;">
             <tr>
-                <td style="width:40%;"><strong>Annual PV generation</strong></td>
-                <td style="width:20%;">= {yearly_gen[0]}</td>
-                <td style="width:20%;">± {yearly_gen[1]}</td>
-                <td style="width:20%;">kWh</td>
+                <td style="width:40%; border: none;"><strong>Annual PV generation</strong></td>
+                <td style="width:20%; border: none;">= {yearly_gen[0]}</td>
+                <td style="width:20%; border: none;">± {yearly_gen[1]}</td>
+                <td style="width:20%; border: none;">kWh</td>
             </tr>
             <tr>
-                <td style="width:40%;"><strong>PV energy used per year (PV only)</strong></td>
-                <td style="width:20%;">= {yearly_use_pv_only[0]}</td>
-                <td style="width:20%;">± {yearly_use_pv_only[1]}</td>
-                <td style="width:20%;">kWh</td>
+                <td style="width:40%; border: none;"><strong>PV energy used per year (PV only)</strong></td>
+                <td style="width:20%; border: none;">= {yearly_use_pv_only[0]}</td>
+                <td style="width:20%; border: none;">± {yearly_use_pv_only[1]}</td>
+                <td style="width:20%; border: none;">kWh</td>
             </tr>
             <tr>
-                <td style="width:40%;"><strong>PV energy used per year (battery)</strong></td>
-                <td style="width:20%;">= {yearly_used_pv_battery[0]}</td>
-                <td style="width:20%;">± {yearly_used_pv_battery[1]}</td>
-                <td style="width:20%;">kWh</td>
+                <td style="width:40%; border: none;"><strong>PV energy used per year (battery)</strong></td>
+                <td style="width:20%; border: none;">= {yearly_used_pv_battery[0]}</td>
+                <td style="width:20%; border: none;">± {yearly_used_pv_battery[1]}</td>
+                <td style="width:20%; border: none;">kWh</td>
             </tr>
         </table>
         """
