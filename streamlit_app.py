@@ -89,6 +89,32 @@ with col2:
         st.markdown(f"**PV energy used per year (PV only)**  = {yearly_use_pv_only[0]:<5} ± {yearly_use_pv_only[1]:<4} kWh")
         st.markdown(f"**PV energy used per year (battery)**  = {yearly_used_pv_battery[0]:<5} ± {yearly_used_pv_battery[1]:<4} kWh")
         
+        table = f"""
+        <table style="width:100%; text-align:left;">
+            <tr>
+                <td><strong>Annual PV generation</strong></td>
+                <td>= {yearly_gen[0]} </td>
+                <td>± {yearly_gen[1]}</td>
+                <td>kWh</td>
+            </tr>
+            <tr>
+                <td><strong>PV energy used per year (PV only)</strong></td>
+                <td>= {yearly_use_pv_only[0]}</td>
+                <td>± {yearly_use_pv_only[1]}</td>
+                <td>kWh</td>
+            </tr>
+            <tr>
+                <td><strong>PV energy used per year (battery)</strong></td>
+                <td>= {yearly_used_pv_battery[0]}</td>
+                <td>± {yearly_used_pv_battery[1]}</td>
+                <td>kWh</td>
+            </tr>
+        </table>
+        """
+        
+        # Display the table
+        st.markdown(table, unsafe_allow_html=True)
+        
         PV = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
         x='time',
         y=alt.Y('PV generation',scale=alt.Scale(domain=(0,PV_max_power*2/3))))
