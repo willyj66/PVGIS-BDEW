@@ -85,8 +85,8 @@ with col2:
         # st.markdown(f"**PV energy used per year (PV only)** = {yearly_use_pv_only[0]} ± {yearly_use_pv_only[1]} kWh")
         # st.markdown(f"**PV energy used per year (battery)** = {yearly_used_pv_battery[0]} ± {yearly_used_pv_battery[1]} kWh")
         
-        st.markdown(f"**Annual PV generation**   = {yearly_gen[0]:<5} ± {yearly_gen[1]:<4} kWh")
-        st.markdown(f"**PV energy used per year (PV only)** = {yearly_use_pv_only[0]:<5} ± {yearly_use_pv_only[1]:<4} kWh")
+        st.markdown(f"**Annual PV generation**               = {yearly_gen[0]:<5} ± {yearly_gen[1]:<4} kWh")
+        st.markdown(f"**PV energy used per year (PV only)**  = {yearly_use_pv_only[0]:<5} ± {yearly_use_pv_only[1]:<4} kWh")
         st.markdown(f"**PV energy used per year (battery)**  = {yearly_used_pv_battery[0]:<5} ± {yearly_used_pv_battery[1]:<4} kWh")
         
         PV = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
