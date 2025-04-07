@@ -90,27 +90,22 @@ with col2:
         st.markdown(f"**PV energy used per year (battery)**  = {yearly_used_pv_battery[0]:<5} ± {yearly_used_pv_battery[1]:<4} kWh")
         
         table = f"""
-        <table style="width:80%; text-align:left; margin: auto; border-collapse: collapse;">
+        <table style="width:70%; margin: auto; border-collapse: collapse;">
             <tr>
-                <td style="width:40%; border: none;"><strong>Annual PV generation</strong></td>
-                <td style="width:20%; border: none;">= {yearly_gen[0]}</td>
-                <td style="width:20%; border: none;">± {yearly_gen[1]}</td>
-                <td style="width:20%; border: none;">kWh</td>
+                <td style="width:65%; text-align: right; border: none;"><strong>Annual PV generation</strong></td>
+                <td style="width:35%; text-align: left; border: none;">= {yearly_gen[0]} ± {yearly_gen[1]} kWh</td>
             </tr>
             <tr>
-                <td style="width:40%; border: none;"><strong>PV energy used per year (PV only)</strong></td>
-                <td style="width:20%; border: none;">= {yearly_use_pv_only[0]}</td>
-                <td style="width:20%; border: none;">± {yearly_use_pv_only[1]}</td>
-                <td style="width:20%; border: none;">kWh</td>
+                <td style="width:65%; text-align: right; border: none;"><strong>PV energy used per year (PV only)</strong></td>
+                <td style="width:35%; text-align: left; border: none;">= {yearly_use_pv_only[0]} ± {yearly_use_pv_only[1]} kWh</td>
             </tr>
             <tr>
-                <td style="width:40%; border: none;"><strong>PV energy used per year (battery)</strong></td>
-                <td style="width:20%; border: none;">= {yearly_used_pv_battery[0]}</td>
-                <td style="width:20%; border: none;">± {yearly_used_pv_battery[1]}</td>
-                <td style="width:20%; border: none;">kWh</td>
+                <td style="width:65%; text-align: right; border: none;"><strong>PV energy used per year (battery)</strong></td>
+                <td style="width:35%; text-align: left; border: none;">= {yearly_used_pv_battery[0]} ± {yearly_used_pv_battery[1]} kWh</td>
             </tr>
         </table>
         """
+
         
         # Display the table
         st.markdown(table, unsafe_allow_html=True)
