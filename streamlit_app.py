@@ -177,33 +177,77 @@ with col3:
     if (lon,lat)!=(0,0):
         """##\n##"""
         st.image(load_image("logo.png"))
-        def export_xlsx(df):
+        # def export_xlsx(df):
+        #     output = BytesIO()
+        #     year_df = pd.DataFrame(
+        #         index = ['a','b','c','d'],
+        #         columns = ['Annual \nDemand: ' + str(annual_consumption)+' kWh',
+        #          'Annual {calc_type} \ngeneration: ' + (str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh'),
+        #          ('Total self-consumption per year ({calc_type} generation only): ' + str(yearly_used_generation_only[0])+' ± '+str(yearly_used_generation_only[1])+' kWh'),
+        #          ('Total self-consumption per year ({calc_type} generation and battery): ' + str(yearly_used_generation_battery[0])+' ± '+str(yearly_used_generation_battery[1])+' kWh')])
+            
+        #     if calc_type == "Solar PV":
+        #         frames = [average,cloudy,sunny,bdew_demand,year_df]
+        #     elif calc_type == "Wind":
+        #         frames = [average,cloudy,sunny,bdew_demand,year_df] # TODO: probably change
+                
+        #     start_row = 1
+        #     writer = pd.ExcelWriter(output, engine='xlsxwriter')
+            
+        #     sheet_name='Monthly Percentages'
+            
+        #     for df in frames:  # assuming they're already DataFrames
+        #         df.to_excel(writer, sheet_name, startrow=start_row, startcol=0, index=False)
+        #         start_row += len(df) + 2  # add a row for the column header?
+        #         for column in df:
+        #             column_width = max(df[column].astype(str).map(len).max(), len(column))
+        #             col_idx = df.columns.get_loc(column)
+        #             writer.sheets[sheet_name].set_column(col_idx, col_idx, column_width)
+        #     writer.close()
+        #     processed_data = output.getvalue()
+        #     return processed_data
+        
+        
+        def export_xlsx(df, calc_type, annual_consumption, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery, average, cloudy, sunny, bdew_demand):
             output = BytesIO()
+        
+            # Create a DataFrame for the year summary
             year_df = pd.DataFrame(
-                index = ['a','b','c','d'],
-                columns = ['Annual \nDemand: ' + str(annual_consumption)+' kWh',
-                 'Annual {calc_type} \ngeneration: ' + (str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh'),
-                 ('Total self-consumption per year ({calc_type} generation only): ' + str(yearly_used_generation_only[0])+' ± '+str(yearly_used_generation_only[1])+' kWh'),
-                 ('Total self-consumption per year ({calc_type} generation and battery): ' + str(yearly_used_generation_battery[0])+' ± '+str(yearly_used_generation_battery[1])+' kWh')])
+                index=['a', 'b', 'c', 'd'],
+                columns=['Annual \nDemand: ' + str(annual_consumption) + ' kWh',
+                         'Annual {calc_type} \ngeneration: ' + (str(yearly_gen[0]) + ' ± ' + str(yearly_gen[1]) + ' kWh'),
+                         ('Total self-consumption per year ({calc_type} generation only): ' + str(yearly_used_generation_only[0]) + ' ± ' + str(yearly_used_generation_only[1]) + ' kWh'),
+                         ('Total self-consumption per year ({calc_type} generation and battery): ' + str(yearly_used_generation_battery[0]) + ' ± ' + str(yearly_used_generation_battery[1]) + ' kWh')])
+        
+            # Choose the frames based on calc_type
             if calc_type == "Solar PV":
-                frames = [average,cloudy,sunny,bdew_demand,year_df]
+                frames = [average, cloudy, sunny, bdew_demand, year_df]
             elif calc_type == "Wind":
-                frames = [average,cloudy,sunny,bdew_demand,year_df] # TODO: probably change
+                frames = [average, cloudy, sunny, bdew_demand, year_df]  # TODO: adjust for wind if needed
+        
             start_row = 1
             writer = pd.ExcelWriter(output, engine='xlsxwriter')
-            sheet_name='Monthly Percentages'
-            for df in frames:  # assuming they're already DataFrames
-                df.to_excel(writer, sheet_name, startrow=start_row, startcol=0, index=False)
-                start_row += len(df) + 2  # add a row for the column header?
-                for column in df:
-                    column_width = max(df[column].astype(str).map(len).max(), len(column))
-                    col_idx = df.columns.get_loc(column)
+        
+            # Loop through the DataFrames and write them to the Excel file
+            for i, frame in enumerate(frames):  # assuming frames are DataFrames
+                sheet_name = f"Sheet_{i + 1}"  # Give each sheet a unique name
+                frame.to_excel(writer, sheet_name=sheet_name, startrow=start_row, startcol=0, index=False)
+                start_row += len(frame) + 2  # Add space for the next DataFrame
+                
+                # Adjust column width based on the content
+                for column in frame:
+                    column_width = max(frame[column].astype(str).map(len).max(), len(column))
+                    col_idx = frame.columns.get_loc(column)
                     writer.sheets[sheet_name].set_column(col_idx, col_idx, column_width)
-            writer.close()
-            processed_data = output.getvalue()
+        
+            # Close the writer and get the processed data
+            writer._save()  # Save the workbook
+            processed_data = output.getvalue()  # Get the binary content of the file
+        
             return processed_data
-
-        toexport = export_xlsx(df)
+        
+        #toexport = export_xlsx(df)
+        toexport = export_xlsx(df, calc_type, annual_consumption, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery, average, cloudy, sunny, bdew_demand)
         """##\n##\n"""
         st.text("Download:\n")
         if calc_type == "Solar PV":
