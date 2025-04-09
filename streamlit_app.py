@@ -148,7 +148,9 @@ with col2:
         """
         
         # Print data for bud checking
-        st.write(df.head())
+        for i, dataframe in enumerate(df):
+            st.write(f"DataFrame {i + 1} Head:")
+            st.write(dataframe.head())
         
         # Display the table
         st.markdown(table, unsafe_allow_html=True)
