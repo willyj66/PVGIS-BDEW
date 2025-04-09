@@ -164,6 +164,7 @@ with col2:
 
         chart = PV+error +BDEW
         chart.height=530
+        alt.theme.enable('quartz')
         st.altair_chart(chart,use_container_width=True)
 
 with col3:
