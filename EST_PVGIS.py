@@ -3,23 +3,20 @@ import pandas as pd
 import numpy as np
 from EST_BDEW import yearly_BDEW
 from PVBatteryModelFunctions import GenBatteryModel
+import GenericWindTurbinePowerCurve as GWTPC
 
-
-def PV_power(
-    max_power,
-    battery_size_kWh,
-    startyear,
-    endyear,
-    latitude,
-    longitude,
-    surface_tilt,
-    surface_azimuth,
-    property_type,
-    yearly_consumption,
-    pvtechchoice="crystSi",
-    mountingplace="free",
-):
-    numyears = endyear - startyear + 1
+def get_PV_Data(
+        max_power,
+        startyear,
+        endyear,
+        latitude,
+        longitude,
+        surface_tilt,
+        surface_azimuth,
+        pvtechchoice="crystSi",
+        mountingplace="free"
+        ):
+    
     data, meta, inputs = get_pvgis_hourly(
         latitude,
         longitude,
@@ -32,6 +29,52 @@ def PV_power(
         pvtechchoice=pvtechchoice,
         mountingplace=mountingplace,
     )
+    
+    return startyear, endyear, data
+
+def get_Wind_Data(
+        startyear,
+        endyear,
+        latitude,
+        longitude,
+        turbine_height,
+        land_cover_type,
+        turbine_nominal_power = 10,
+        turbine_rotor_diameter = 10.2,
+        cutin_speed = 3,
+        cutoff_speed = 25
+        ):
+    
+    data, meta, inputs = get_pvgis_hourly(
+        latitude,
+        longitude,
+        start=startyear,
+        end=endyear
+    )
+    
+    #Correct wind speed to height of turbine : https://wind-data.ch/tools/profile.php?lng=en
+    data["wind_speed"] = data["wind_speed"] * np.log(turbine_height/land_cover_type) / np.log(10/land_cover_type)
+
+    data["P"] = GWTPC.GenericWindTurbinePowerCurve(data["wind_speed"],
+                                                           Pnom=turbine_nominal_power,
+                                                           Drotor=turbine_rotor_diameter,
+                                                           Vcutin=cutin_speed,
+                                                           Vcutoff=cutoff_speed)
+    return startyear, endyear, data
+    
+    
+
+
+def CalculateBatterySavings(
+    generation_data,
+    battery_size_kWh,
+    property_type,
+    yearly_consumption
+):
+    
+    startyear, endyear, data = generation_data    
+    
+    numyears = endyear - startyear + 1
 
     years = np.arange(startyear, endyear + 1, 1).tolist()
     all_years_daily_average = []
