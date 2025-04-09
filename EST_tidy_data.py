@@ -65,25 +65,25 @@ def makedf_PV(property_type, lat, lon, annual_consumption, PV_max_power, battery
         generation_max = generation+2*error
 
         """Find % of demand covered by PV"""
-        workday_intersection        = np.trapz(np.amin([workday[month],generation], axis=0),time)/4
-        saturday_intersection       = np.trapz(np.amin([saturday[month],generation], axis=0),time)/4
-        sunday_intersection         = np.trapz(np.amin([sunday[month],generation], axis=0),time)/4
+        workday_intersection        = np.trapezoid(np.amin([workday[month],generation], axis=0),time)/4
+        saturday_intersection       = np.trapezoid(np.amin([saturday[month],generation], axis=0),time)/4
+        sunday_intersection         = np.trapezoid(np.amin([sunday[month],generation], axis=0),time)/4
 
-        min_workday_intersection    = np.trapz(np.amin([workday[month],generation_min], axis=0),time)/4
-        min_saturday_intersection   = np.trapz(np.amin([saturday[month],generation_min], axis=0),time)/4
-        min_sunday_intersection     = np.trapz(np.amin([sunday[month],generation_min], axis=0),time)/4
+        min_workday_intersection    = np.trapezoid(np.amin([workday[month],generation_min], axis=0),time)/4
+        min_saturday_intersection   = np.trapezoid(np.amin([saturday[month],generation_min], axis=0),time)/4
+        min_sunday_intersection     = np.trapezoid(np.amin([sunday[month],generation_min], axis=0),time)/4
 
-        max_workday_intersection    = np.trapz(np.amin([workday[month],generation_max], axis=0),time)/4
-        max_saturday_intersection   = np.trapz(np.amin([saturday[month],generation_max], axis=0),time)/4
-        max_sunday_intersection     = np.trapz(np.amin([sunday[month],generation_max], axis=0),time)/4
+        max_workday_intersection    = np.trapezoid(np.amin([workday[month],generation_max], axis=0),time)/4
+        max_saturday_intersection   = np.trapezoid(np.amin([saturday[month],generation_max], axis=0),time)/4
+        max_sunday_intersection     = np.trapezoid(np.amin([sunday[month],generation_max], axis=0),time)/4
 
-        total_generation            = np.trapz(generation,time)/4
-        total_min_generation        = np.trapz(generation_min,time)/4
-        total_max_generation        = np.trapz(generation_max,time)/4
+        total_generation            = np.trapezoid(generation,time)/4
+        total_min_generation        = np.trapezoid(generation_min,time)/4
+        total_max_generation        = np.trapezoid(generation_max,time)/4
 
-        workday_demand              = np.trapz(workday[month],time)/4
-        saturday_demand             = np.trapz(saturday[month],time)/4
-        sunday_demand               = np.trapz(sunday[month],time)/4
+        workday_demand              = np.trapezoid(workday[month],time)/4
+        saturday_demand             = np.trapezoid(saturday[month],time)/4
+        sunday_demand               = np.trapezoid(sunday[month],time)/4
 
         workday_demand_covered      = 100*workday_intersection/workday_demand
         saturday_demand_covered     = 100*saturday_intersection/saturday_demand
@@ -221,25 +221,25 @@ def makedf_Wind(property_type, lat, lon, annual_consumption,start_year, end_year
         generation_max = generation+2*error
 
         """Find % of demand covered by Wind"""
-        workday_intersection        = np.trapz(np.amin([workday[month],generation], axis=0),time)/4
-        saturday_intersection       = np.trapz(np.amin([saturday[month],generation], axis=0),time)/4
-        sunday_intersection         = np.trapz(np.amin([sunday[month],generation], axis=0),time)/4
+        workday_intersection        = np.trapezoid(np.amin([workday[month],generation], axis=0),time)/4
+        saturday_intersection       = np.trapezoid(np.amin([saturday[month],generation], axis=0),time)/4
+        sunday_intersection         = np.trapezoid(np.amin([sunday[month],generation], axis=0),time)/4
 
-        min_workday_intersection    = np.trapz(np.amin([workday[month],generation_min], axis=0),time)/4
-        min_saturday_intersection   = np.trapz(np.amin([saturday[month],generation_min], axis=0),time)/4
-        min_sunday_intersection     = np.trapz(np.amin([sunday[month],generation_min], axis=0),time)/4
+        min_workday_intersection    = np.trapezoid(np.amin([workday[month],generation_min], axis=0),time)/4
+        min_saturday_intersection   = np.trapezoid(np.amin([saturday[month],generation_min], axis=0),time)/4
+        min_sunday_intersection     = np.trapezoid(np.amin([sunday[month],generation_min], axis=0),time)/4
 
-        max_workday_intersection    = np.trapz(np.amin([workday[month],generation_max], axis=0),time)/4
-        max_saturday_intersection   = np.trapz(np.amin([saturday[month],generation_max], axis=0),time)/4
-        max_sunday_intersection     = np.trapz(np.amin([sunday[month],generation_max], axis=0),time)/4
+        max_workday_intersection    = np.trapezoid(np.amin([workday[month],generation_max], axis=0),time)/4
+        max_saturday_intersection   = np.trapezoid(np.amin([saturday[month],generation_max], axis=0),time)/4
+        max_sunday_intersection     = np.trapezoid(np.amin([sunday[month],generation_max], axis=0),time)/4
 
-        total_generation            = np.trapz(generation,time)/4
-        total_min_generation        = np.trapz(generation_min,time)/4
-        total_max_generation        = np.trapz(generation_max,time)/4
+        total_generation            = np.trapezoid(generation,time)/4
+        total_min_generation        = np.trapezoid(generation_min,time)/4
+        total_max_generation        = np.trapezoid(generation_max,time)/4
 
-        workday_demand              = np.trapz(workday[month],time)/4
-        saturday_demand             = np.trapz(saturday[month],time)/4
-        sunday_demand               = np.trapz(sunday[month],time)/4
+        workday_demand              = np.trapezoid(workday[month],time)/4
+        saturday_demand             = np.trapezoid(saturday[month],time)/4
+        sunday_demand               = np.trapezoid(sunday[month],time)/4
 
         workday_demand_covered      = 100*workday_intersection/workday_demand
         saturday_demand_covered     = 100*saturday_intersection/saturday_demand
@@ -323,16 +323,16 @@ def makedf_Wind(property_type, lat, lon, annual_consumption,start_year, end_year
             yearly_used_generation_battery)
 
 
-# test_PV = makedf_PV(property_type = "g0",
-#                     lat = 57.1437,
-#                     lon = -2.0981,
-#                     annual_consumption = 5000,
-#                     PV_max_power= 5, 
-#                     battery_capacity_kWh=5,
-#                     surface_tilt = 35,
-#                     surface_azimuth = 0,
-#                     start_year = 2013,
-#                     end_year = 2016
-#                     )
+test_PV = makedf_PV(property_type = "g0",
+                    lat = 57.1437,
+                    lon = -2.0981,
+                    annual_consumption = 5000,
+                    PV_max_power= 5, 
+                    battery_capacity_kWh=5,
+                    surface_tilt = 35,
+                    surface_azimuth = 0,
+                    start_year = 2015,
+                    end_year = 2016
+                    )
 
 # test_Wind = makedf_Wind(property_type = "g0", lat = 57.1437, lon = -2.0981, annual_consumption = 5000, start_year = 2013, end_year = 2016, battery_capacity_kWh = 5, turbine_height = 10, land_cover_type = 0.4)

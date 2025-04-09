@@ -43,7 +43,9 @@ st.set_page_config(layout="wide")
 #            """
 #st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
-logo = Image.open('logo.png')
+def load_image(path):
+    with Image.open(path) as img:
+        return img.copy()  # copy closes the file while keeping the image data
 col1, col2, col3 = st.columns([4,12,1.1])
 @st.cache_data
 def to_the_shop_to_get_your_PV_data(property_type,lat,lon,annual_consumption, PV_max_power, battery_capacity_kWh, surface_tilt, surface_azimuth):
@@ -98,7 +100,7 @@ with col2:
             st.write("Wind speed data at 10m height from PVGIS is scaled using this calculator: https://wind-data.ch/tools/profile.php?lng=en")
         with col3:
             """##\n##"""
-            st.image(logo)
+            st.image(load_image("logo.png"))
     else:
         
         if calc_type == "Solar PV":
@@ -167,7 +169,7 @@ with col2:
 with col3:
     if (lon,lat)!=(0,0):
         """##\n##"""
-        st.image(logo)
+        st.image(load_image("logo.png"))
         def export_xlsx(df):
             output = BytesIO()
             year_df = pd.DataFrame(

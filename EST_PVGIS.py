@@ -86,7 +86,7 @@ def CalculateBatterySavings(
 
         """MONTHLY ANALYSIS"""
         monthsyear = []
-        groupyear = data["P"][str(year)].groupby(pd.Grouper(freq="M"))
+        groupyear = data["P"][str(year)].groupby(pd.Grouper(freq="ME"))
         for date, group in groupyear:
             monthsyear.append(np.array(group.to_numpy()))
 
@@ -108,7 +108,7 @@ def CalculateBatterySavings(
         """YEARLY ANALYSIS"""
         yearly_demand = (
             yearly_BDEW(property_type, year, yearly_consumption)
-            .resample(rule="H")
+            .resample(rule="h")
             .sum()
             / 4
         )
@@ -122,8 +122,8 @@ def CalculateBatterySavings(
         
         demand_profile = yearly_demand.reset_index().rename(columns = {"index":"Time", property_type: "ElectricityDemandAC_kWh"})
         
-        pv_profile['Time'] = pd.to_datetime(pv_profile['Time'], utc=True).dt.floor('H')
-        demand_profile['Time'] = pd.to_datetime(demand_profile['Time'], utc=True).dt.floor('H')
+        pv_profile['Time'] = pd.to_datetime(pv_profile['Time'], utc=True).dt.floor('h')
+        demand_profile['Time'] = pd.to_datetime(demand_profile['Time'], utc=True).dt.floor('h')
 
         
         combined_profile = pd.merge(pv_profile, demand_profile, on = "Time")

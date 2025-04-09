@@ -19,7 +19,8 @@ The following functions are used
 
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
-from demandlib.bdew.elec_slp import ElecSlp
+#from demandlib.bdew.elec_slp import ElecSlp
+from demandlib import bdew
 import demandlib.particular_profiles as profiles
 from workalendar.europe import UnitedKingdom
 from workalendar.core import MON, SAT, SUN
@@ -33,8 +34,8 @@ def get_BDEW(Property_Type, year, yearly_consumption):
         Property_Type:yearly_consumption
         }
 
-    e_slp = ElecSlp(year,holidays=holidays)
-    demand = e_slp.get_profile(ann_el_demand_per_sector)
+    e_slp = bdew.ElecSlp(year,holidays=holidays)
+    demand = e_slp.get_scaled_profiles(ann_el_demand_per_sector)
 
 
     # Option to configure an industrial slp
@@ -77,7 +78,7 @@ def yearly_BDEW(Property_Type, year, yearly_consumption):
         Property_Type:yearly_consumption
         }
 
-    e_slp = ElecSlp(year,holidays=holidays)
-    demand = e_slp.get_profile(ann_el_demand_per_sector)
+    e_slp = bdew.ElecSlp(year,holidays=holidays)
+    demand = e_slp.get_scaled_profiles(ann_el_demand_per_sector)
 
     return demand
