@@ -56,6 +56,9 @@ def to_the_shop_to_get_your_Wind_data(property_type, lat, lon, annual_consumptio
     return makedf_Wind(invPropertyDict[property_type],lat, lon, annual_consumption,start, end, battery_capacity_kWh, turbine_height, land_cover_type, turbine_nominal_power, turbine_rotor_diameter, cutin_speed, cutoff_speed)
 
 with col1:
+    calc_type =  st.radio("Technology",("Solar PV","Wind"),horizontal=True)
+    if calc_type == "Wind":
+        st.write("Please note Wind calculations take a minute or two to run, please be patient")
     location = st.radio("How to imput location?",("Coordinates","Postcode"),horizontal=True,label_visibility='hidden')
     if location == "Coordinates":
         lat = float(st.text_input('Latitude', value=0))
@@ -68,8 +71,7 @@ with col1:
             lon = float(postcode_data["longitude"])
             st.code("Latitude  = "+str(lat)+"\nLongitude = "+str(lon))
         else:
-            lat,lon=0,0
-    calc_type =  st.radio("Technology",("Solar PV","Wind"),horizontal=True)
+            lat,lon=0,0    
     with st.form(key="Input parameters"):
         property_type = st.selectbox('What is the property type?',PropertyDict.values())
         annual_consumption = st.number_input('Annual property consumption [kWh]',value=12000,step=1)
@@ -130,30 +132,30 @@ with col2:
         st.markdown(f"**Total self-consumption per year ({calc_type} generation only)**  = {yearly_used_generation_only[0]:<5} ± {yearly_used_generation_only[1]:<4} kWh")
         st.markdown(f"**Total self-consumption per year ({calc_type} generation and battery)**  = {yearly_used_generation_battery[0]:<5} ± {yearly_used_generation_battery[1]:<4} kWh")
         
-        table = f"""
-        <table style="width:70%; margin: auto; border-collapse: collapse; cellspacing: 0; cellpadding: 0;">
-            <tr>
-                <td style="width:65%; text-align: right; border: none; padding: 0; margin: 0;"><strong>Annual {calc_type} generation</strong></td>
-                <td style="width:35%; text-align: left; border: none; padding: 0; margin: 0;">= {yearly_gen[0]} ± {yearly_gen[1]} kWh</td>
-            </tr>
-            <tr>
-                <td style="width:65%; text-align: right; border: none; padding: 0; margin: 0;"><strong>Total self-consumption per year ({calc_type} generation only)</strong></td>
-                <td style="width:35%; text-align: left; border: none; padding: 0; margin: 0;">= {yearly_used_generation_only[0]} ± {yearly_used_generation_only[1]} kWh</td>
-            </tr>
-            <tr>
-                <td style="width:65%; text-align: right; border: none; padding: 0; margin: 0;"><strong>Total self-consumption per year ({calc_type} generation and battery)</strong></td>
-                <td style="width:35%; text-align: left; border: none; padding: 0; margin: 0;">= {yearly_used_generation_battery[0]} ± {yearly_used_generation_battery[1]} kWh</td>
-            </tr>
-        </table>
-        """
+        # table = f"""
+        # <table style="width:70%; margin: auto; border-collapse: collapse; cellspacing: 0; cellpadding: 0;">
+        #     <tr>
+        #         <td style="width:65%; text-align: right; border: none; padding: 0; margin: 0;"><strong>Annual {calc_type} generation</strong></td>
+        #         <td style="width:35%; text-align: left; border: none; padding: 0; margin: 0;">= {yearly_gen[0]} ± {yearly_gen[1]} kWh</td>
+        #     </tr>
+        #     <tr>
+        #         <td style="width:65%; text-align: right; border: none; padding: 0; margin: 0;"><strong>Total self-consumption per year ({calc_type} generation only)</strong></td>
+        #         <td style="width:35%; text-align: left; border: none; padding: 0; margin: 0;">= {yearly_used_generation_only[0]} ± {yearly_used_generation_only[1]} kWh</td>
+        #     </tr>
+        #     <tr>
+        #         <td style="width:65%; text-align: right; border: none; padding: 0; margin: 0;"><strong>Total self-consumption per year ({calc_type} generation and battery)</strong></td>
+        #         <td style="width:35%; text-align: left; border: none; padding: 0; margin: 0;">= {yearly_used_generation_battery[0]} ± {yearly_used_generation_battery[1]} kWh</td>
+        #     </tr>
+        # </table>
+        # """
         
-        # Print data for bud checking
-        # for i, dataframe in enumerate(df):
-        #     st.write(f"DataFrame {i + 1} Head:")
-        #     st.write(dataframe.head())
+        # # Print data for bud checking
+        # # for i, dataframe in enumerate(df):
+        # #     st.write(f"DataFrame {i + 1} Head:")
+        # #     st.write(dataframe.head())
         
-        # Display the table
-        st.markdown(table, unsafe_allow_html=True)
+        # # Display the table
+        # st.markdown(table, unsafe_allow_html=True)
         
         Gen = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
         x='time',
