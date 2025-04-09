@@ -115,9 +115,9 @@ def makedf_PV(property_type, lat, lon, annual_consumption, PV_max_power, battery
         """Write time-data into Pandas data frame"""
         df = pd.DataFrame({
             'time'          : time,
-            'PV generation' : generation,
-            'PV min'        : generation_min,
-            'PV max'        : generation_max,
+            'Total generation' : generation,
+            'Gen min'        : generation_min,
+            'Gen max'        : generation_max,
             'BDEW workday'  : workday[month],
             'BDEW saturday' : saturday[month],
             'BDEW sunday'   : sunday[month]
@@ -271,9 +271,9 @@ def makedf_Wind(property_type, lat, lon, annual_consumption,start_year, end_year
         """Write time-data into Pandas data frame"""
         df = pd.DataFrame({
             'time'          : time,
-            'Wind generation' : generation,
-            'Wind min'        : generation_min,
-            'Wind max'        : generation_max,
+            'Total generation' : generation,
+            'Gen min'        : generation_min,
+            'Gen max'        : generation_max,
             'BDEW workday'  : workday[month],
             'BDEW saturday' : saturday[month],
             'BDEW sunday'   : sunday[month]
