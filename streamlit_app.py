@@ -146,14 +146,17 @@ with col2:
             </tr>
         </table>
         """
-
+        
+        # Print data for bud checking
+        st.write(df.head())
         
         # Display the table
         st.markdown(table, unsafe_allow_html=True)
         
         Gen = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
         x='time',
-        y=alt.Y('Total generation'))
+        #y=alt.Y('Total generation'),
+        y= 'Total generation')
 
         error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='Gen min',y2='Gen max')
         if day == 'workday':

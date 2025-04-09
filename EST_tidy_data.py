@@ -323,16 +323,16 @@ def makedf_Wind(property_type, lat, lon, annual_consumption,start_year, end_year
             yearly_used_generation_battery)
 
 
-test_PV = makedf_PV(property_type = "g0",
-                    lat = 57.1437,
-                    lon = -2.0981,
-                    annual_consumption = 5000,
-                    PV_max_power= 5, 
-                    battery_capacity_kWh=5,
-                    surface_tilt = 35,
-                    surface_azimuth = 0,
-                    start_year = 2015,
-                    end_year = 2016
-                    )
+# test_PV = makedf_PV(property_type = "g0",
+#                     lat = 57.1437,
+#                     lon = -2.0981,
+#                     annual_consumption = 5000,
+#                     PV_max_power= 5, 
+#                     battery_capacity_kWh=5,
+#                     surface_tilt = 35,
+#                     surface_azimuth = 0,
+#                     start_year = 2013,
+#                     end_year = 2016
+#                     )
 
-# test_Wind = makedf_Wind(property_type = "g0", lat = 57.1437, lon = -2.0981, annual_consumption = 5000, start_year = 2013, end_year = 2016, battery_capacity_kWh = 5, turbine_height = 10, land_cover_type = 0.4)
+# test_Wind = makedf_Wind(property_type = "g0", lat = 57.1437, lon = -2.0981, annual_consumption = 12000, start_year = 2013, end_year = 2016, battery_capacity_kWh = 5, turbine_height = 18, land_cover_type = 0.4, turbine_rotor_diameter=10.2, cutin_speed=3, cutoff_speed=25)
