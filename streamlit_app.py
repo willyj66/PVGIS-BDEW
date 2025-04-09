@@ -45,9 +45,11 @@ st.set_page_config(layout="wide")
 
 logo = Image.open('logo.png')
 col1, col2, col3 = st.columns([4,12,1.1])
-@st.cache
+@st.cache_data
 def to_the_shop_to_get_your_PV_data(property_type,lat,lon,annual_consumption, PV_max_power, battery_capacity_kWh, surface_tilt, surface_azimuth):
     return makedf_PV(invPropertyDict[property_type],lat, lon, annual_consumption, PV_max_power, battery_capacity_kWh, surface_tilt, surface_azimuth,start, end)
+
+@st.cache_data
 def to_the_shop_to_get_your_Wind_data(property_type, lat, lon, annual_consumption, battery_capacity_kWh, turbine_height, land_cover_type, turbine_nominal_power, turbine_rotor_diameter, cutin_speed, cutoff_speed):
     return makedf_Wind(invPropertyDict[property_type],lat, lon, annual_consumption,start, end, battery_capacity_kWh, turbine_height, land_cover_type, turbine_nominal_power, turbine_rotor_diameter, cutin_speed, cutoff_speed)
 
@@ -196,8 +198,7 @@ with col3:
                                     data=toexport ,
                                     file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(PV_max_power)+"kWp.xlsx")
         
-
-        
+ 
 
 
 

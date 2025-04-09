@@ -59,7 +59,7 @@ def get_Wind_Data(
                                                            Pnom=turbine_nominal_power,
                                                            Drotor=turbine_rotor_diameter,
                                                            Vcutin=cutin_speed,
-                                                           Vcutoff=cutoff_speed)
+                                                           Vcutoff=cutoff_speed)*1000
     return startyear, endyear, data
     
     
