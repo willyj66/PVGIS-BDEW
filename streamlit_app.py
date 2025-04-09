@@ -151,9 +151,9 @@ with col2:
         # Display the table
         st.markdown(table, unsafe_allow_html=True)
         
-        PV = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
+        Gen = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
         x='time',
-        y=alt.Y('Total generation',scale=alt.Scale(domain=(0,PV_max_power*2/3))))
+        y=alt.Y('Total generation'))
 
         error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='Gen min',y2='Gen max')
         if day == 'workday':
@@ -163,7 +163,7 @@ with col2:
         elif day == 'sunday':
             BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW sunday')
 
-        chart = PV+error +BDEW
+        chart = Gen+error +BDEW
         chart.height=530
         alt.theme.enable('quartz')
         st.altair_chart(chart,use_container_width=True)
@@ -180,7 +180,10 @@ with col3:
                  'Annual {calc_type} \ngeneration: ' + (str(yearly_gen[0])+' ± '+str(yearly_gen[1])+' kWh'),
                  ('Total self-consumption per year ({calc_type} generation only): ' + str(yearly_used_generation_only[0])+' ± '+str(yearly_used_generation_only[1])+' kWh'),
                  ('Total self-consumption per year ({calc_type} generation and battery): ' + str(yearly_used_generation_battery[0])+' ± '+str(yearly_used_generation_battery[1])+' kWh')])
-            frames = [average,cloudy,sunny,bdew_demand,year_df]
+            if calc_type == "Solar PV":
+                frames = [average,cloudy,sunny,bdew_demand,year_df]
+            elif calc_type == "Wind":
+                frames = [average,cloudy,sunny,bdew_demand,year_df] # TODO: probably change
             start_row = 1
             writer = pd.ExcelWriter(output, engine='xlsxwriter')
             sheet_name='Monthly Percentages'
@@ -198,9 +201,13 @@ with col3:
         toexport = export_xlsx(df)
         """##\n##\n"""
         st.text("Download:\n")
+        if calc_type == "Solar PV":
+            export_file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_SolarPV_"+str(PV_max_power)+"kWp.xlsx"
+        elif calc_type == "Wind":
+            export_file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_Wind_"+str(turbine_height)+"m_turbine.xlsx"
         st.download_button(label='📥',
                                     data=toexport ,
-                                    file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_"+str(PV_max_power)+"kWp.xlsx")
+                                    file_name= export_file_name)
         
  
 
