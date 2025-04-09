@@ -82,6 +82,7 @@ with col1:
             turbine_height = st.number_input('Wind turbine height [m]',value=18,step=1)
             turbine_nominal_power = st.number_input('Turbine nominal power [kW]',value=10.0,step=0.1,min_value=5.0,max_value=20.0)
             turbine_rotor_diameter = st.number_input('Turbine rotor diameter [m]',value=10.2,step=0.1,min_value=5.0,max_value=20.0)
+            battery_capacity_kWh = st.number_input('Battery Capacity [kWh]',value=5.0,step=0.1, min_value=0.0)
             cutin_speed = st.number_input('Cut-in speed [m/s]',value=3.0,step=.1,min_value=1.4,max_value=6.1)
             cutoff_speed = st.number_input('Cut-off speed [m/s]',value=25.0,step=.1,min_value=10.1,max_value=50.4)
             land_cover_type = st.selectbox('What is the type of surrounding land cover?',LandCoverDict.keys())
