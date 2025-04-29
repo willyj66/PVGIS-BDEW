@@ -107,10 +107,10 @@ with col2:
     else:
         
         if calc_type == "Solar PV":
-            df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery = to_the_shop_to_get_your_PV_data(
+            df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery, hh_full = to_the_shop_to_get_your_PV_data(
                         property_type,lat,lon,annual_consumption, PV_max_power, battery_capacity_kWh, surface_tilt, surface_azimuth)
         elif calc_type == "Wind":
-            df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery = to_the_shop_to_get_your_Wind_data(
+            df, average,cloudy, sunny, bdew_demand, t, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery, hh_full = to_the_shop_to_get_your_Wind_data(
                         property_type, lat, lon, annual_consumption, battery_capacity_kWh, turbine_height, LandCoverDict[land_cover_type], turbine_nominal_power, turbine_rotor_diameter, cutin_speed, cutoff_speed)
         
         
@@ -210,7 +210,7 @@ with col3:
         #     return processed_data
         
         
-        def export_xlsx(df, calc_type, annual_consumption, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery, average, cloudy, sunny, bdew_demand):
+        def export_xlsx(df, calc_type, annual_consumption, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery, average, cloudy, sunny, bdew_demand, hh_data, download_hh):
             output = BytesIO()
         
             # Create a DataFrame for the year summary
@@ -241,7 +241,10 @@ with col3:
                     column_width = max(frame[column].astype(str).map(len).max(), len(column))
                     col_idx = frame.columns.get_loc(column)
                     writer.sheets[sheet_name].set_column(col_idx, col_idx, column_width)
-        
+            
+            # Add hh data to new tab
+            if download_hh==True:
+                hh_data.to_excel(writer, sheet_name="hh_data_debug", startrow=0, startcol=0, index=False)
             # Close the writer and get the processed data
             writer._save()  # Save the workbook
             processed_data = output.getvalue()  # Get the binary content of the file
@@ -249,13 +252,14 @@ with col3:
             return processed_data
         
         #toexport = export_xlsx(df)
-        toexport = export_xlsx(df, calc_type, annual_consumption, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery, average, cloudy, sunny, bdew_demand)
+        toexport = export_xlsx(df, calc_type, annual_consumption, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery, average, cloudy, sunny, bdew_demand, hh_data, download_hh_button)
         """##\n##\n"""
         st.text("Download:\n")
         if calc_type == "Solar PV":
             export_file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_SolarPV_"+str(PV_max_power)+"kWp.xlsx"
         elif calc_type == "Wind":
             export_file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_Wind_"+str(turbine_height)+"m_turbine.xlsx"
+        download_hh_button = st.checkbox("Download HH data?", value=False)
         st.download_button(label='📥',
                                     data=toexport ,
                                     file_name= export_file_name)

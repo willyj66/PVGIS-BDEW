@@ -110,7 +110,7 @@ def CalculateBatterySavings(
             yearly_BDEW(property_type, year, yearly_consumption)
             .resample(rule="h")
             .sum()
-            / 4
+            # / 4
         )
         yearly_demand = yearly_demand[property_type]
         yearly_pv = data["P"][str(year)] / 1000
@@ -129,7 +129,7 @@ def CalculateBatterySavings(
         combined_profile = pd.merge(pv_profile, demand_profile, on = "Time")
         
         if battery_size_kWh > 0:
-            run_battery_model = GenBatteryModel(combined_profile, BatterySize_kWh = battery_size_kWh)
+            run_battery_model, full_hh_data = GenBatteryModel(combined_profile, BatterySize_kWh = battery_size_kWh, KeepModelData=True)
             yearly_use_battery.append(run_battery_model["pv_self_consumption"].astype("int"))
         
         intersection = np.amin([yearly_demand, yearly_pv], axis=0)
@@ -155,13 +155,21 @@ def CalculateBatterySavings(
         batt_error = np.nan
         pv_battery_self_cons_mean = np.nan
         pv_battery_self_cons_ci = np.nan
+        full_hh_data = pd.DataFrame([])
 
     return (
         daily_average / 1000,
         daily_error / 1000,
         (generation_total_mean, generation_total_ci),
         (pv_only_self_cons_mean, pv_only_self_cons_ci),
-        (pv_battery_self_cons_mean, pv_battery_self_cons_ci)
+        (pv_battery_self_cons_mean, pv_battery_self_cons_ci),
+        full_hh_data
     )  # convert into kWh
 
 
+# yearly_demand = (
+#     yearly_BDEW("g0", 2013, 5000)
+#     .resample(rule="h")
+#     .sum()
+# )
+# yearly_demand = sum(yearly_demand["g0"])

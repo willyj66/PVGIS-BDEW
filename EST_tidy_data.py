@@ -15,7 +15,7 @@ def makedf_PV(property_type, lat, lon, annual_consumption, PV_max_power, battery
     
     GetPVData = get_PV_Data(PV_max_power, start_year, end_year, lat, lon, surface_tilt, surface_azimuth)
     
-    generation_hourly, error_hourly, yearly_generation, yearly_used_generation_only, yearly_used_generation_battery  = CalculateBatterySavings(
+    generation_hourly, error_hourly, yearly_generation, yearly_used_generation_only, yearly_used_generation_battery, full_hh_data  = CalculateBatterySavings(
         GetPVData, battery_capacity_kWh, property_type, annual_consumption
         )
     time_hourly = np.linspace(0,24,24)
@@ -163,13 +163,14 @@ def makedf_PV(property_type, lat, lon, annual_consumption, PV_max_power, battery
             time,
             yearly_generation,
             yearly_used_generation_only,
-            yearly_used_generation_battery)
+            yearly_used_generation_battery,
+            full_hh_data)
 
 def makedf_Wind(property_type, lat, lon, annual_consumption,start_year, end_year, battery_capacity_kWh, turbine_height,land_cover_type, turbine_nominal_power = 10, turbine_rotor_diameter = 10.2, cutin_speed = 3, cutoff_speed = 25):
     
     GetWindData = get_Wind_Data(start_year, end_year, lat, lon, turbine_height, land_cover_type, turbine_nominal_power, turbine_rotor_diameter, cutin_speed, cutoff_speed)
     
-    generation_hourly, error_hourly, yearly_generation, yearly_used_generation_only, yearly_used_generation_battery  = CalculateBatterySavings(
+    generation_hourly, error_hourly, yearly_generation, yearly_used_generation_only, yearly_used_generation_battery, full_hh_data  = CalculateBatterySavings(
         GetWindData, battery_capacity_kWh, property_type, annual_consumption
         )
     
@@ -320,7 +321,8 @@ def makedf_Wind(property_type, lat, lon, annual_consumption,start_year, end_year
             time,
             yearly_generation,
             yearly_used_generation_only,
-            yearly_used_generation_battery)
+            yearly_used_generation_battery,
+            full_hh_data)
 
 
 # test_PV = makedf_PV(property_type = "g0",
@@ -328,11 +330,16 @@ def makedf_Wind(property_type, lat, lon, annual_consumption,start_year, end_year
 #                     lon = -2.0981,
 #                     annual_consumption = 5000,
 #                     PV_max_power= 5, 
-#                     battery_capacity_kWh=5,
+#                     battery_capacity_kWh=0,
 #                     surface_tilt = 35,
 #                     surface_azimuth = 0,
 #                     start_year = 2013,
 #                     end_year = 2016
 #                     )
+
+# hh_data = test_PV[9]
+
+# sum(hh_data["GenerationEnergy_kWh"])
+# sum(hh_data["ElectricityDemandAC_kWh"])
 
 # test_Wind = makedf_Wind(property_type = "g0", lat = 57.1437, lon = -2.0981, annual_consumption = 12000, start_year = 2013, end_year = 2016, battery_capacity_kWh = 5, turbine_height = 18, land_cover_type = 0.4, turbine_rotor_diameter=10.2, cutin_speed=3, cutoff_speed=25)
