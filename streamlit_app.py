@@ -243,8 +243,25 @@ with col3:
                     writer.sheets[sheet_name].set_column(col_idx, col_idx, column_width)
             
             # Add hh data to new tab
-            if download_hh==True:
-                hh_data.to_excel(writer, sheet_name="hh_data_debug", startrow=0, startcol=0, index=False)
+            # if download_hh==True:
+            #     hh_data.to_excel(writer, sheet_name="hh_data_debug", startrow=0, startcol=0, index=False)
+                
+            # Clean up hh_data before writing to Excel
+            if download_hh:
+                try:
+                    # Convert timezone-aware datetimes to naive
+                    for col in hh_data.select_dtypes(include=['datetimetz']).columns:
+                        hh_data[col] = hh_data[col].dt.tz_localize(None)
+            
+                    # Convert lists/dicts to strings
+                    for col in hh_data.columns:
+                        hh_data[col] = hh_data[col].apply(lambda x: str(x) if isinstance(x, (list, dict, set)) else x)
+            
+                    hh_data.to_excel(writer, sheet_name="hh_data_debug", startrow=0, startcol=0, index=False)
+                except Exception as e:
+                    st.error(f"Failed to write HH data to Excel: {e}")
+
+
             # Close the writer and get the processed data
             writer._save()  # Save the workbook
             processed_data = output.getvalue()  # Get the binary content of the file
