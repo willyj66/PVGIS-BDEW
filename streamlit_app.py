@@ -251,15 +251,19 @@ with col3:
         
             return processed_data
         
-        #toexport = export_xlsx(df)
-        toexport = export_xlsx(df, calc_type, annual_consumption, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery, average, cloudy, sunny, bdew_demand, hh_data, download_hh_button)
+
         """##\n##\n"""
         st.text("Download:\n")
+        download_hh_button = st.checkbox("Download HH data?", value=False)
+        
+        #toexport = export_xlsx(df)
+        toexport = export_xlsx(df, calc_type, annual_consumption, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery, average, cloudy, sunny, bdew_demand, hh_full, download_hh_button)
+        
         if calc_type == "Solar PV":
             export_file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_SolarPV_"+str(PV_max_power)+"kWp.xlsx"
         elif calc_type == "Wind":
             export_file_name= invPropertyDict[property_type]+"_"+str(annual_consumption)+"kWh_Wind_"+str(turbine_height)+"m_turbine.xlsx"
-        download_hh_button = st.checkbox("Download HH data?", value=False)
+        
         st.download_button(label='📥',
                                     data=toexport ,
                                     file_name= export_file_name)
