@@ -272,7 +272,7 @@ with col3:
 
         """##\n##\n"""
         st.text("Download:\n")
-        download_hh_button = st.checkbox("Download HH data?", value=False)
+        download_hh_button = st.checkbox("Download HH data for debugging?", value=False)
         
         #toexport = export_xlsx(df)
         toexport = export_xlsx(df, calc_type, annual_consumption, yearly_gen, yearly_used_generation_only, yearly_used_generation_battery, average, cloudy, sunny, bdew_demand, hh_full, download_hh_button)
