@@ -233,7 +233,8 @@ with col3:
             # Loop through the DataFrames and write them to the Excel file
             for i, frame in enumerate(frames):  # assuming frames are DataFrames
                 #sheet_name = f"Sheet_{i + 1}"  # Give each sheet a unique name
-                frame.to_excel(writer, sheet_name="summary_results", startrow=start_row, startcol=0, index=False)
+                sheet_name = "summary_results"
+                frame.to_excel(writer, sheet_name=sheet_name, startrow=start_row, startcol=0, index=False)
                 start_row += len(frame) + 2  # Add space for the next DataFrame
                 
                 # Adjust column width based on the content
