@@ -8,6 +8,20 @@ import streamlit as st
 import pgeocode
 from PIL import Image
 
+# %% Test SL DNS issues
+
+import socket
+
+st.header("🔍 Network diagnostic")
+
+try:
+    ip = socket.gethostbyname("re.jrc.ec.europa.eu")
+    st.success(f"✅ DNS resolution works: re.jrc.ec.europa.eu → {ip}")
+except Exception as e:
+    st.error(f"❌ DNS resolution failed: {e}")
+
+# %% Main Streamlit app
+
 country = pgeocode.Nominatim("gb")
 MonthDict={ 1 : "January", 2 : "February", 3 : "March", 4 : "April", 5 : "May", 6 : "June", 7: "July",
             8 : "August", 9 : "September", 10 : "October", 11 : "November",12 : "December"}
