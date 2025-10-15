@@ -11,14 +11,30 @@ from PIL import Image
 # %% Test SL DNS issues
 
 import socket
+import requests
 
 st.header("🔍 Network diagnostic")
 
+# 1. DNS resolution
 try:
     ip = socket.gethostbyname("re.jrc.ec.europa.eu")
     st.success(f"✅ DNS resolution works: re.jrc.ec.europa.eu → {ip}")
 except Exception as e:
     st.error(f"❌ DNS resolution failed: {e}")
+
+# 2. HTTPS connectivity
+try:
+    r = requests.get("https://re.jrc.ec.europa.eu/api/seriescalc", timeout=5)
+    st.success(f"✅ HTTPS request works: {r.status_code}")
+except Exception as e:
+    st.error(f"❌ HTTPS request failed: {e}")
+
+# 3. Control test – another domain
+try:
+    r = requests.get("https://api.github.com", timeout=5)
+    st.success("✅ Can reach GitHub API")
+except Exception as e:
+    st.error(f"❌ Can't reach GitHub API: {e}")
 
 # %% Main Streamlit app
 
