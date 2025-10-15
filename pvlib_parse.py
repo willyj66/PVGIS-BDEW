@@ -20,7 +20,8 @@ from pathlib import Path
 import requests
 import pandas as pd
 
-URL = 'https://re.jrc.ec.europa.eu/api/'
+#URL = 'https://re.jrc.ec.europa.eu/api/'
+URL = 'http://re.jrc.ec.europa.eu/api/'
 #URL = 'https://re.jrc.ec.europa.eu/api/v5_2/' # temp fix as v5.3 doesn't seem to be working on 3/7/2025
 
 # Dictionary mapping PVGIS names to pvlib names
