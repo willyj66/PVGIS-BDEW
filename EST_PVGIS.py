@@ -139,18 +139,18 @@ def CalculateBatterySavings(
     daily_average = np.mean(all_years_daily_average, axis=0)
     daily_error = np.sqrt(np.sum(np.square(all_years_daily_error), axis=0)) / numyears
     
-    gen_error = np.nan#np.std(np.array(yearly_gen_pv_only), ddof=1) / np.sqrt(len(yearly_gen_pv_only))
-    use_error = np.nan#np.std(np.array(yearly_use_pv_only), ddof=1) / np.sqrt(len(yearly_use_pv_only))
+    gen_error = np.std(np.array(yearly_gen_pv_only), ddof=1) / np.sqrt(len(yearly_gen_pv_only))
+    use_error = np.std(np.array(yearly_use_pv_only), ddof=1) / np.sqrt(len(yearly_use_pv_only))
     
     generation_total_mean = int(np.mean(yearly_gen_pv_only))
-    generation_total_ci = np.nan#int(1.96*gen_error)
+    generation_total_ci = int(1.96*gen_error)
     pv_only_self_cons_mean = int(np.mean(yearly_use_pv_only))
-    pv_only_self_cons_ci = np.nan#int(1.96*use_error)
+    pv_only_self_cons_ci = int(1.96*use_error)
     
     if battery_size_kWh > 0:        
-        batt_error = np.nan#np.std(np.array(yearly_use_battery), ddof=1) / np.sqrt(len(yearly_use_battery))
+        batt_error = np.std(np.array(yearly_use_battery), ddof=1) / np.sqrt(len(yearly_use_battery))
         pv_battery_self_cons_mean = int(np.mean(yearly_use_battery))
-        pv_battery_self_cons_ci = np.nan#int(1.96*batt_error)
+        pv_battery_self_cons_ci = int(1.96*batt_error)
     else:
         batt_error = np.nan
         pv_battery_self_cons_mean = np.nan
