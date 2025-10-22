@@ -129,7 +129,7 @@ def CalculateBatterySavings(
         combined_profile = pd.merge(pv_profile, demand_profile, on = "Time")
         
         if battery_size_kWh > 0:
-            run_battery_model, full_hh_data = GenBatteryModel(combined_profile, BatterySize_kWh = battery_size_kWh, KeepModelData=True)
+            run_battery_model, full_hh_data = GenBatteryModel(combined_profile, BatterySize_kWh = battery_size_kWh, KeepModelData=True, InverterEfficiency = 1)
             yearly_use_battery.append(run_battery_model["pv_self_consumption"].astype("int"))
         
         intersection = np.amin([yearly_demand, yearly_pv], axis=0)
