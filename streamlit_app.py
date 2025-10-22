@@ -61,7 +61,7 @@ LandCoverDict={
 invPropertyDict = {v: k for k, v in PropertyDict.items()}
 invLandCoverDict = {v: k for k, v in LandCoverDict.items()}
 
-start = 2013
+start = 2016
 end = 2016
 st.set_page_config(layout="wide")
 
