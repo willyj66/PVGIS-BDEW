@@ -188,9 +188,10 @@ with col2:
         # st.markdown(table, unsafe_allow_html=True)
         
         Gen = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
-        x='time',
-        #y=alt.Y('Total generation'),
-        y= 'Total generation')
+        x=alt.X('time', title = 'Time'),
+        y=alt.Y('Total generation', title = 'Total generation'),
+        tooltip=['time', 'Total generation'])
+        #y= 'Total generation')
 
         error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='Gen min',y2='Gen max')
         if day == 'workday':
