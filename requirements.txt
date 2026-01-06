@@ -7,3 +7,6 @@ numpy
 pathlib
 pgeocode
 xlsxwriter
+streamlit[charts]
+plotly>=5
+orjson
