@@ -290,7 +290,7 @@ with col2:
             height=530,
             margin=dict(t=40, r=20, b=40, l=60),
             xaxis_title='Time',
-            yaxis_title='Total generation',
+            yaxis_title='Total energy (kWh)',
             legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='left', x=0)
         )
         
