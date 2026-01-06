@@ -7,6 +7,7 @@ import pandas as pd
 import streamlit as st
 import pgeocode
 from PIL import Image
+import plotly.graph_objects as go
 
 # %% Test SL DNS issues
 
@@ -187,24 +188,115 @@ with col2:
         # # Display the table
         # st.markdown(table, unsafe_allow_html=True)
         
-        Gen = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
-        x=alt.X('time', title = 'Time'),
-        y=alt.Y('Total generation', title = 'Total generation'),
-        tooltip=['time', 'Total generation'])
-        #y= 'Total generation')
+        # %% Old altair code
+        
+        # Gen = alt.Chart(df[month-1]).mark_line(strokeWidth=6).encode(
+        # x=alt.X('time', title = 'Time'),
+        # y=alt.Y('Total generation', title = 'Total generation'),
+        # tooltip=['time', 'Total generation'])
+        # #y= 'Total generation')
 
-        error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='Gen min',y2='Gen max')
+        # error = alt.Chart(df[month-1]).mark_area(opacity=0.2).encode(x='time',y='Gen min',y2='Gen max')
+        # if day == 'workday':
+        #     BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW workday')
+        # elif day == 'saturday':
+        #     BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW saturday')
+        # elif day == 'sunday':
+        #     BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW sunday')
+
+        # chart = Gen+error +BDEW
+        # chart.height=530
+        # alt.theme.enable('quartz')
+        # st.altair_chart(chart,use_container_width=True)
+        
+        # %% New plotly code
+        # Assumptions:
+        # - df is a list/sequence of monthly DataFrames, so df[month-1] selects the month.
+        # - Columns: 'time', 'Total generation', 'Gen min', 'Gen max',
+        #            'BDEW workday', 'BDEW saturday', 'BDEW sunday'
+        # - 'time' is parseable as datetime.
+        
+        # Select the month and ensure time is sorted
+        d = df[month - 1].copy()
+        d['time'] = pd.to_datetime(d['time'])
+        d = d.sort_values('time')
+        
+        fig = go.Figure()
+        
+        # 1) Total generation line
+        fig.add_trace(
+            go.Scatter(
+                x=d['time'],
+                y=d['Total generation'],
+                name='Total generation',
+                mode='lines',
+                line=dict(width=6),  # thickness similar to strokeWidth=6
+                hovertemplate='Time=%{x}<br>Total generation=%{y}<extra></extra>'
+            )
+        )
+        
+        # 2) Error band: area between Gen max and Gen min
+        # Plot Gen max first (invisible line), then Gen min filled to previous trace.
+        fig.add_trace(
+            go.Scatter(
+                x=d['time'],
+                y=d['Gen max'],
+                name='Gen max',
+                mode='lines',
+                line=dict(width=0),
+                hoverinfo='skip',
+                showlegend=False
+            )
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=d['time'],
+                y=d['Gen min'],
+                name='Generation range',
+                mode='lines',
+                line=dict(width=0),
+                fill='tonexty',       # fill area between this and previous trace (Gen max)
+                opacity=0.2,
+                hoverinfo='skip'
+            )
+        )
+        
+        # 3) BDEW reference line (red), selected by `day`
         if day == 'workday':
-            BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW workday')
+            bdew_col = 'BDEW workday'
         elif day == 'saturday':
-            BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW saturday')
+            bdew_col = 'BDEW saturday'
         elif day == 'sunday':
-            BDEW = alt.Chart(df[month-1]).mark_line(strokeWidth=6,color='red').encode(x='time',y='BDEW sunday')
+            bdew_col = 'BDEW sunday'
+        else:
+            bdew_col = None
+        
+        if bdew_col is not None and bdew_col in d.columns:
+            fig.add_trace(
+                go.Scatter(
+                    x=d['time'],
+                    y=d[bdew_col],
+                    name=bdew_col,
+                    mode='lines',
+                    line=dict(width=6, color='red'),
+                    hovertemplate=f'Time=%{{x}}<br>{bdew_col}=%{{y}}<extra></extra>'
+                )
+            )
+        
+        # Layout & styling
+        fig.update_layout(
+            template='plotly_white',
+            height=530,
+            margin=dict(t=40, r=20, b=40, l=60),
+            xaxis_title='Time',
+            yaxis_title='Total generation',
+            legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='left', x=0)
+        )
+        
+        # Render in Streamlit
+        st.plotly_chart(fig, use_container_width=True)
 
-        chart = Gen+error +BDEW
-        chart.height=530
-        alt.theme.enable('quartz')
-        st.altair_chart(chart,use_container_width=True)
+# %% Column 3: logo and download
 
 with col3:
     if (lon,lat)!=(0,0):
