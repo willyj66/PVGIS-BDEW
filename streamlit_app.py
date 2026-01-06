@@ -9,6 +9,7 @@ import pgeocode
 from PIL import Image
 import plotly.graph_objects as go
 
+
 # %% Test SL DNS issues
 
 import socket
@@ -218,8 +219,8 @@ with col2:
         
         # Select the month and ensure time is sorted
         d = df[month - 1].copy()
-        d['time'] = pd.to_datetime(d['time'])
-        d = d.sort_values('time')
+        # d['time'] = pd.to_datetime(d['time'])
+        # d = d.sort_values('time')
         
         fig = go.Figure()
         
