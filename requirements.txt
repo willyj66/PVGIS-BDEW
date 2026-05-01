@@ -10,3 +10,4 @@ xlsxwriter
 streamlit[charts]
 plotly>=5
 orjson
+websockets==12.0
