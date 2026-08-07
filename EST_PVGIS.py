@@ -144,7 +144,7 @@ def CalculateBatterySavings(
     
     generation_total_mean = int(np.mean(yearly_gen_pv_only))
     generation_total_ci = int(1.96*gen_error)
-    pv_only_self_cons_mean = min(int(np.mean(yearly_use_pv_only)),int(0.95*generation_total_mean))
+    pv_only_self_cons_mean = min(int(np.mean(yearly_use_pv_only)),int(1*generation_total_mean))
     pv_only_self_cons_ci = int(1.96*use_error)
     
     if battery_size_kWh > 0:        
