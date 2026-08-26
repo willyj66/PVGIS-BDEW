@@ -114,7 +114,7 @@ with col1:
             surface_azimuth = st.number_input('Surface azimuth [degrees]',value=0,step=1)
         elif calc_type == "Wind":
             turbine_height = st.number_input('Wind turbine height [m]',value=18,step=1)
-            turbine_nominal_power = st.number_input('Turbine nominal power [kW]',value=10.0,step=0.1,min_value=5.0,max_value=200.0)
+            turbine_nominal_power = st.number_input('Turbine nominal power [kW]',value=10.0,step=0.1,min_value=3.0,max_value=200.0)
             turbine_rotor_diameter = st.number_input('Turbine rotor diameter [m]',value=10.2,step=0.1,min_value=3.0,max_value=40.0)
             battery_capacity_kWh = st.number_input('Battery Capacity [kWh]',value=5.0,step=0.1, min_value=0.0)
             cutin_speed = st.number_input('Cut-in speed [m/s]',value=3.0,step=.1,min_value=1.4,max_value=6.1)
