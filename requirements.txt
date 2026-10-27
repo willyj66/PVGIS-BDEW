@@ -2,8 +2,6 @@ streamlit
 pandas==2.2.3
 demandlib==0.2.2
 workalendar
-numpy<2
-pathlib
 pgeocode
 xlsxwriter
 plotly>=5
