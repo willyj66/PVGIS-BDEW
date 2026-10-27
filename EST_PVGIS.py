@@ -86,7 +86,14 @@ def CalculateBatterySavings(
 
         """MONTHLY ANALYSIS"""
         monthsyear = []
-        groupyear = data["P"][str(year)].groupby(pd.Grouper(freq="ME"))
+        #groupyear = data["P"][str(year)].groupby(pd.Grouper(freq="ME"))
+        
+        series_check = data["P"][str(year)]
+        print(type(series_check.index))
+        print(series_check.index.dtype)
+        print(series_check.index[:5])
+        
+        groupyear = data["P"][str(year)].resample("ME")
         for date, group in groupyear:
             monthsyear.append(np.array(group.to_numpy()))
 
