@@ -2,11 +2,10 @@ streamlit
 pandas==2.2.3
 demandlib==0.2.2
 workalendar
-numpy
+numpy<2
 pathlib
 pgeocode
 xlsxwriter
-streamlit[charts]
 plotly>=5
 orjson
 websockets==12.0

@@ -9,6 +9,14 @@ import pgeocode
 from PIL import Image
 import plotly.graph_objects as go
 
+# %% Check warnings
+
+import warnings
+
+print("Filters:")
+for f in warnings.filters:
+    print(f)
+
 
 # %% Test SL DNS issues
 
