@@ -93,6 +93,14 @@ def CalculateBatterySavings(
         print(series_check.index.dtype)
         print(series_check.index[:5])
         
+        idx = data["P"][str(year)].index
+
+        print("UNIT:", getattr(idx, "unit", "NO_UNIT"))
+        print("TZ:", idx.tz)
+        print("DTYPE:", idx.dtype)
+        
+        raise Exception("STOP HERE")
+        
         groupyear = data["P"][str(year)].resample("ME")
         for date, group in groupyear:
             monthsyear.append(np.array(group.to_numpy()))
