@@ -1,6 +1,6 @@
 streamlit
-pandas
-demandlib
+pandas==2.2.3
+demandlib==0.2.2
 workalendar
 numpy
 pathlib
