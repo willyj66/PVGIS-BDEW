@@ -1,10 +1,10 @@
-streamlit
+streamlit==1.66.1
 pandas==2.2.3
-demandlib==0.2.2
 numpy==2.2.6
-workalendar
-pgeocode
-xlsxwriter
-plotly>=5
-orjson
+demandlib==0.2.2
+workalendar==17.0.0
+pgeocode==0.5.0
+xlsxwriter==3.3.0
+plotly==7.1.0
+orjson==3.13.0
 websockets==12.0
