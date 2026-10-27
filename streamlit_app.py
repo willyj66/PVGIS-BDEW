@@ -12,10 +12,11 @@ import plotly.graph_objects as go
 # %% Check warnings
 
 import warnings
+    
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
 
-print("Filters:")
-for f in warnings.filters:
-    print(f)
+print(warnings.filters)
 
 
 # %% Test SL DNS issues

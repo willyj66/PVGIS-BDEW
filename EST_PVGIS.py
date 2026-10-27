@@ -88,18 +88,24 @@ def CalculateBatterySavings(
         monthsyear = []
         #groupyear = data["P"][str(year)].groupby(pd.Grouper(freq="ME"))
         
-        series_check = data["P"][str(year)]
-        print(type(series_check.index))
-        print(series_check.index.dtype)
-        print(series_check.index[:5])
+        # ======================
+        # DEBUG
+        # ======================
+        # series_check = data["P"][str(year)]
+        # print(type(series_check.index))
+        # print(series_check.index.dtype)
+        # print(series_check.index[:5])
         
-        idx = data["P"][str(year)].index
+        # idx = data["P"][str(year)].index
 
-        print("UNIT:", getattr(idx, "unit", "NO_UNIT"))
-        print("TZ:", idx.tz)
-        print("DTYPE:", idx.dtype)
+        # print("UNIT:", getattr(idx, "unit", "NO_UNIT"))
+        # print("TZ:", idx.tz)
+        # print("DTYPE:", idx.dtype)
         
-        raise Exception("STOP HERE")
+        # raise Exception("STOP HERE")
+        # ======================
+        # DEBUG
+        # ======================
         
         groupyear = data["P"][str(year)].resample("ME")
         for date, group in groupyear:
