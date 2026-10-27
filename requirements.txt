@@ -1,6 +1,7 @@
 streamlit
 pandas==2.2.3
 demandlib==0.2.2
+numpy==2.2.6
 workalendar
 pgeocode
 xlsxwriter
